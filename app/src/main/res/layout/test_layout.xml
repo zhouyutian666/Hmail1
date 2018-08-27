@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="---2.26----" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:text="www.baidu.com" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:autoLink="phone"
+                android:text="133****2537" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:autoLink="email"
+                android:text="zhou44*56@qq.com" />
+
+            <TextView
+                android:id="@+id/txt_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/txt_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/txt_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <com.example.widegt.RoundImageView
+                android:id="@+id/img_round"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp" />
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:textOff="关闭声音"
+                android:textOn="打开声音" />
+
+            <Switch
+                android:id="@+id/swh_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="off"
+                android:textOn="On" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <SeekBar
+                android:id="@+id/seekbar_1"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="---2.27----" />
+
+            <SeekBar
+                android:id="@+id/sb_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="5.0dp"
+                android:minHeight="5.0dp"
+                android:progressDrawable="@drawable/sb_bar"
+                android:thumb="@drawable/sb_thumb" />
+
+            <RatingBar
+                android:id="@+id/rb_normal"
+                style="@style/roomRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:numStars="10" />
+
+            <AnalogClock
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+
+            <Button
+                android:id="@+id/btn_toast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="toast" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="---2.28----" />
+
+            <Button
+                android:id="@+id/btn_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示悬浮框" />
+
+            <Button
+                android:id="@+id/btn_show_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发起通知消息" />
+
+            <Button
+                android:id="@+id/btn_close_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消通知消息" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="---3.5----" />
+
+            <Button
+                android:id="@+id/btn_tomyview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="触点界面" />
+
+            <Button
+                android:id="@+id/btn_tomyimagetest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="触点界面" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="---3.6----" />
+
+            <TextView
+                android:id="@+id/tv_configuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/txttitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <!-- 设置一个进度条,并且设置为水平方向 -->
+
+            <ProgressBar
+                android:id="@+id/pgbar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnupdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="更新progressBar" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
