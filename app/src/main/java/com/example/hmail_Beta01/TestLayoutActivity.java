@@ -51,7 +51,7 @@ import com.example.widegt.RoundImageView;
 public class TestLayoutActivity extends Activity implements OnClickListener {
 
 	SeekBar sb_normal;
-	TextView txt_cur, txttitle;
+	TextView txt_cur, txttitle,tv_camera;
 	Button btn_toast;
     private ProgressBar pgbar;  
 	
@@ -106,6 +106,16 @@ public class TestLayoutActivity extends Activity implements OnClickListener {
 				startActivity(i);
 			}
 		});
+
+		TextView tv_camera = (TextView) findViewById(R.id.tv_camera);
+		tv_camera.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent();
+				startActivity(i);
+			}
+		});
+
 	}
 	
 	// 定义一个点击每个部分文字的处理方法
