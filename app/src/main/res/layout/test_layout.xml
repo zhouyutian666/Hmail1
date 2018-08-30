@@ -203,7 +203,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="拍照"
+                android:text="调用系统相机拍照"
                 android:textSize="16sp"/>
         </LinearLayout>
     </ScrollView>

@@ -43,6 +43,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.testView.CameraActivity;
 import com.example.testView.MyAsyncTask;
 import com.example.testView.myImageTestActivity;
 import com.example.testView.myViewActivity;
@@ -112,6 +113,7 @@ public class TestLayoutActivity extends Activity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent();
+				i.setClass(TestLayoutActivity.this,CameraActivity.class);
 				startActivity(i);
 			}
 		});

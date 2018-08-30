@@ -1,9 +1,4 @@
-package com.example.adapter;//÷‹”ÍÃÔ
-
-import java.util.List;
-import java.util.Map;
-
-import com.example.hmail_Beta01.R;
+package com.example.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,10 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.hmail_Beta01.R;
+
+import java.util.List;
+import java.util.Map;
 
 public class MyAdapter extends BaseAdapter {
 
