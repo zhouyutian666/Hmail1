@@ -59,10 +59,8 @@ public class TestLayoutActivity extends Activity implements OnClickListener {
 	private Notification notify1;
 	Bitmap LargeBitmap = null;
 	private static final int NOTIFYID_1 = 1;
-
 	private Button btn_show_normal;
 	private Button btn_close_normal;
-
 	private Button btn_show, btnupdate;
 
 	protected void onCreate(Bundle savedInstanceState) {
