@@ -102,7 +102,6 @@ public class TestLayoutActivity extends Activity implements OnClickListener,
         initSensor();
         initEdit();
 
-
         // 比如这里做一个简单的判断，当页面发生滚动，显示那个Button
         sv_home.setImgeViewOnClickGoToFirst(iv_zd);
     }

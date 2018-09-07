@@ -48,7 +48,7 @@ public class LoginActivity extends Activity {
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// È¥µô±êÌâÀ¸
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// å»æ‰æ ‡é¢˜æ 
 		setContentView(R.layout.activity_login);
 
 		MyApp app = (MyApp) this.getApplication();
@@ -80,7 +80,7 @@ public class LoginActivity extends Activity {
 	}
 
 	/**
-	 * ¼ì²âÊÇ·ñ´æÔÚ¼ÇÂ¼ÃÜÂëÊı¾İ
+	 * æ£€æµ‹æ˜¯å¦å­˜åœ¨è®°å½•å¯†ç æ•°æ®
 	 */
 	public void isRememberPass() {
 
@@ -90,7 +90,7 @@ public class LoginActivity extends Activity {
 		rememberPass = (CheckBox) findViewById(R.id.checkBox1);
 		isRemember = pref.getBoolean("remember_password", false);
 
-		if (isRemember) { // ½«ÕËºÅºÍÃÜÂë¶¼ÉèÖÃµ½ÎÄ±¾¿òÖĞ
+		if (isRemember) { // å°†è´¦å·å’Œå¯†ç éƒ½è®¾ç½®åˆ°æ–‡æœ¬æ¡†ä¸­
 			String account = pref.getString("account", "");
 			String password = pref.getString("password", "");
 			UserMailInput.setText(account);
@@ -98,12 +98,12 @@ public class LoginActivity extends Activity {
 			rememberPass.setChecked(true);
 		}
 		Drawable[] drawable_user = UserMailInput.getCompoundDrawables();
-		// Êı×éÏÂ±í0~3,ÒÀ´ÎÊÇ:×óÉÏÓÒÏÂ
+		// æ•°ç»„ä¸‹è¡¨0~3,ä¾æ¬¡æ˜¯:å·¦ä¸Šå³ä¸‹
 		drawable_user[0].setBounds(0, 0, 60, 60);
 		UserMailInput.setCompoundDrawables(drawable_user[0], null, null, null);
 
 		Drawable[] drawable_password = UserPassWordInput.getCompoundDrawables();
-		// Êı×éÏÂ±í0~3,ÒÀ´ÎÊÇ:×óÉÏÓÒÏÂ
+		// æ•°ç»„ä¸‹è¡¨0~3,ä¾æ¬¡æ˜¯:å·¦ä¸Šå³ä¸‹
 		drawable_password[0].setBounds(0, 0, 60, 60);
 		UserPassWordInput.setCompoundDrawables(drawable_password[0], null, null, null);
 
@@ -111,8 +111,8 @@ public class LoginActivity extends Activity {
 
 	public void onClick(View view) {
 		switch (view.getId()) {
-		case R.id.forgetPassword: {// Íü¼ÇÃÜÂë
-		// Toast.makeText(LoginActivity.this, "±§Ç¸£¬¸Ã¹¦ÄÜÔİÎ´¿ª·Å£¡",
+		case R.id.forgetPassword: {// å¿˜è®°å¯†ç 
+		// Toast.makeText(LoginActivity.this, "æŠ±æ­‰ï¼Œè¯¥åŠŸèƒ½æš‚æœªå¼€æ”¾ï¼",
 		// Toast.LENGTH_SHORT).show();
 			Intent i = new Intent();
 			i.setClass(this, TestLayoutActivity.class);
@@ -120,7 +120,7 @@ public class LoginActivity extends Activity {
 			break;
 		}
 		case R.id.loginButton:
-			// Toast.makeText(LoginActivity.this, "¾´ÇëÆÚ´ı£¡", Toast.LENGTH_SHORT)
+			// Toast.makeText(LoginActivity.this, "æ•¬è¯·æœŸå¾…ï¼", Toast.LENGTH_SHORT)
 			// .show();
 			startLoading();
 			break;
@@ -128,7 +128,7 @@ public class LoginActivity extends Activity {
 	}
 
 	/**
-	 * ÅĞ¶ÏÕÊºÅºÍÃÜÂëÊÇ·ñÎª¿Õ£¬¿ªÊ¼loading
+	 * åˆ¤æ–­å¸å·å’Œå¯†ç æ˜¯å¦ä¸ºç©ºï¼Œå¼€å§‹loading
 	 */
 	String user;
 	String password;
@@ -139,7 +139,7 @@ public class LoginActivity extends Activity {
 		UserPassWordInput = (EditText) findViewById(R.id.password);
 		password = UserPassWordInput.getText().toString();
 
-		if (user.length() != 0 && password.length() != 0) {// ÓÃ»§ÃûºÍÃÜÂë²»ÄÜÎª¿Õ
+		if (user.length() != 0 && password.length() != 0) {// ç”¨æˆ·åå’Œå¯†ç ä¸èƒ½ä¸ºç©º
 
 			// showLoading();
 			// startLogin(user, password);
@@ -148,17 +148,17 @@ public class LoginActivity extends Activity {
 			savePass(user, password);
 
 		} else {
-			Toast.makeText(LoginActivity.this, "ÓÃ»§ÃûºÍÃÜÂë²»ÄÜÎª¿Õ£¡",
+			Toast.makeText(LoginActivity.this, "ç”¨æˆ·åå’Œå¯†ç ä¸èƒ½ä¸ºç©ºï¼",
 					Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	/**
-	 * ¿ªÊ¼µÇÂ¼£¬ĞÂ½¨ºóÌ¨×ÓÏß³Ì
+	 * å¼€å§‹ç™»å½•ï¼Œæ–°å»ºåå°å­çº¿ç¨‹
 	 */
 	public void startLogin() {
 
-		client.setMailUser(user);// ½«ÕÊºÅºÍÃÜÂë´«¸øºóÌ¨
+		client.setMailUser(user);// å°†å¸å·å’Œå¯†ç ä¼ ç»™åå°
 		client.setMailPass(password);
 		Thread clientThread = new Thread(client);
 		clientThread.start();
@@ -166,14 +166,14 @@ public class LoginActivity extends Activity {
 	}
 
 	/**
-	 * ´æ´¢ÕÊºÅÃÜÂë
+	 * å­˜å‚¨å¸å·å¯†ç 
 	 * 
 	 * @param user
 	 * @param password
 	 */
 	public void savePass(String user, String password) {
 		editor = pref.edit();
-		if (rememberPass.isChecked()) { // ¼ì²é¸´Ñ¡¿òÊÇ·ñ±»Ñ¡ÖĞ
+		if (rememberPass.isChecked()) { // æ£€æŸ¥å¤é€‰æ¡†æ˜¯å¦è¢«é€‰ä¸­
 			editor.putBoolean("remember_password", true);
 			editor.putString("account", user);
 			editor.putString("password", password);
@@ -184,18 +184,18 @@ public class LoginActivity extends Activity {
 	}
 
 	/**
-	 * Handler´¦ÀíÆ÷
+	 * Handlerå¤„ç†å™¨
 	 */
 	static Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case toListActivity: // ÔÚÕâÀï¿ÉÒÔ½øĞĞUI²Ù×÷
-				System.out.println("Ö´ĞĞhandlerÌø×ªµ½ÓÊ¼şÁĞ±í£¡");
-				((MyApp) self.getApplication()).mailClient = self.client;// µ±ÊÖ»úÄÚ´æ²»¹»ÓÃÊ±£¬applicationÀïÃæµÄ±äÁ¿ÓĞ¿ÉÄÜ»á±»ÊÍ·Åµõ£¬´Ë´¦ÊÇ½«activityÀïµÄ¶ÔÏóÖØĞÂ¸³Öµµ½application¶ÔÏóÖĞ£»
+			case toListActivity: // åœ¨è¿™é‡Œå¯ä»¥è¿›è¡ŒUIæ“ä½œ
+				System.out.println("æ‰§è¡Œhandlerè·³è½¬åˆ°é‚®ä»¶åˆ—è¡¨ï¼");
+				((MyApp) self.getApplication()).mailClient = self.client;// å½“æ‰‹æœºå†…å­˜ä¸å¤Ÿç”¨æ—¶ï¼Œapplicationé‡Œé¢çš„å˜é‡æœ‰å¯èƒ½ä¼šè¢«é‡Šæ”¾åŠï¼Œæ­¤å¤„æ˜¯å°†activityé‡Œçš„å¯¹è±¡é‡æ–°èµ‹å€¼åˆ°applicationå¯¹è±¡ä¸­ï¼›
 				Intent goToList = new Intent(self, ListActivity.class);
 				self.startActivity(goToList);
 				self.pd.dismiss();
-				System.out.println("³É¹¦Ìø×ª£¡");
+				System.out.println("æˆåŠŸè·³è½¬ï¼");
 				break;
 			case toExit:
 				// System.exit(0);
@@ -203,7 +203,7 @@ public class LoginActivity extends Activity {
 				android.os.Process.killProcess(android.os.Process.myPid());
 				break;
 			case toContentActivity:
-				((MyApp) self.getApplication()).mailClient = self.client;// µ±ÊÖ»úÄÚ´æ²»¹»ÓÃÊ±£¬applicationÀïÃæµÄ±äÁ¿ÓĞ¿ÉÄÜ»á±»ÊÍ·Åµõ£¬´Ë´¦ÊÇ½«activityÀïµÄ¶ÔÏóÖØĞÂ¸³Öµµ½application¶ÔÏóÖĞ£»
+				((MyApp) self.getApplication()).mailClient = self.client;// å½“æ‰‹æœºå†…å­˜ä¸å¤Ÿç”¨æ—¶ï¼Œapplicationé‡Œé¢çš„å˜é‡æœ‰å¯èƒ½ä¼šè¢«é‡Šæ”¾åŠï¼Œæ­¤å¤„æ˜¯å°†activityé‡Œçš„å¯¹è±¡é‡æ–°èµ‹å€¼åˆ°applicationå¯¹è±¡ä¸­ï¼›
 				ListActivity.toContentActivity();
 				break;
 			default:
@@ -215,18 +215,18 @@ public class LoginActivity extends Activity {
 	ProgressDialog pd;
 
 	/**
-	 * ÏÔÊ¾Loading
+	 * æ˜¾ç¤ºLoading
 	 */
 	public void showLoading() {
 		pd = new ProgressDialog(LoginActivity.this);
-		pd.setTitle("µÇÂ¼");
+		pd.setTitle("ç™»å½•");
 		pd.setMessage("Loading...");
 		pd.setCancelable(true);
 		pd.show();
 	}
 
 	// /**
-	// * ×¢ÏúLoading
+	// * æ³¨é”€Loading
 	// */
 	// public void dismissLoading() {
 	// pd.dismiss();
@@ -245,11 +245,11 @@ public class LoginActivity extends Activity {
 			String mailUser = params[0];
 			String mailPass = params[1];
 			if (connectToPopServ() == 0) {// ret = 0
-				if (getResp() == 0) {// ·şÎñÆ÷·µ»Ø +ok Ôò getResp() = 0
+				if (getResp() == 0) {// æœåŠ¡å™¨è¿”å› +ok åˆ™ getResp() = 0
 					if (this.login(mailUser, mailPass) == 0) {
 						startLogin();
 					} else {
-						System.out.println("ÕÊºÅÃÜÂë²»ÕıÈ·£¬³ÌĞòÍË³ö£¡");
+						System.out.println("å¸å·å¯†ç ä¸æ­£ç¡®ï¼Œç¨‹åºé€€å‡ºï¼");
 						// System.exit(1);
 					}
 				}
@@ -274,14 +274,14 @@ public class LoginActivity extends Activity {
 		private DataOutputStream out = null;
 
 		/**
-		 * ´´½¨Óë·şÎñÆ÷µÄÁ¬½Ó
+		 * åˆ›å»ºä¸æœåŠ¡å™¨çš„è¿æ¥
 		 * 
 		 * @return
 		 */
 		private int connectToPopServ() {
 			int ret = 0;
 			try {
-				this.sock = new Socket("pop3.163.com", 110);// ´´½¨Óë·şÎñÆ÷µÄÁ¬½Ó
+				this.sock = new Socket("pop3.163.com", 110);// åˆ›å»ºä¸æœåŠ¡å™¨çš„è¿æ¥
 				this.sock.setSoTimeout(10 * 000);
 				// this.sock.connect(new InetSocketAddress("pop.163.com", 110),
 				// 10*000);
@@ -291,24 +291,24 @@ public class LoginActivity extends Activity {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				System.out.println("Óë·şÎñÆ÷Á¬½ÓÊ§°Ü£¬·µ»Øret = -1");
+				System.out.println("ä¸æœåŠ¡å™¨è¿æ¥å¤±è´¥ï¼Œè¿”å›ret = -1");
 				ret = -1;
 			}
 			return ret;
 		}
 
 		/**
-		 * ÅĞ¶Ï·şÎñÆ÷ÊÇ·ñ·µ»Ø+ok
+		 * åˆ¤æ–­æœåŠ¡å™¨æ˜¯å¦è¿”å›+ok
 		 * 
 		 * @return
 		 */
-		public int getResp() {// ÅĞ¶Ï·şÎñÆ÷ÊÇ·ñ·µ»Ø +ok
+		public int getResp() {// åˆ¤æ–­æœåŠ¡å™¨æ˜¯å¦è¿”å› +ok
 			int ret = 0;
 			String line = null;
 			try {
 				line = reader.readLine();
-				System.out.println("·şÎñÆ÷·µ»Ø£º" + line);
-				if (line.startsWith("+OK")) { // ·şÎñÆ÷·µ»Ø +ok Ôò ret = 0
+				System.out.println("æœåŠ¡å™¨è¿”å›ï¼š" + line);
+				if (line.startsWith("+OK")) { // æœåŠ¡å™¨è¿”å› +ok åˆ™ ret = 0
 					ret = 0;
 				} else {
 					ret = 1;
@@ -323,7 +323,7 @@ public class LoginActivity extends Activity {
 		}
 
 		/**
-		 * ÅĞ¶ÏÓÃ»§ÕÊºÅÃÜÂëÊÇ·ñÕıÈ·£» ÕıÈ·Êä³ö ¡°µÇÂ¼ÓÊÏäÕÊºÅ³É¹¦¡±
+		 * åˆ¤æ–­ç”¨æˆ·å¸å·å¯†ç æ˜¯å¦æ­£ç¡®ï¼› æ­£ç¡®è¾“å‡º â€œç™»å½•é‚®ç®±å¸å·æˆåŠŸâ€
 		 * 
 		 * @return
 		 */
@@ -337,7 +337,7 @@ public class LoginActivity extends Activity {
 					if (ret == 0) {
 						ret = this.getResp();
 						if (ret == 0) {
-							System.out.println("µÇÂ¼ÓÊÏäÕÊºÅ³É¹¦£¡");
+							System.out.println("ç™»å½•é‚®ç®±å¸å·æˆåŠŸï¼");
 
 						}
 					}
@@ -348,7 +348,7 @@ public class LoginActivity extends Activity {
 		}
 
 		/**
-		 * Êä³öÅäÖÃÎÄ¼şº¬passÔòÃÜÂë¸ÄÎª******£» ÆäËûÖ±½ÓÊä³ö
+		 * è¾“å‡ºé…ç½®æ–‡ä»¶å«passåˆ™å¯†ç æ”¹ä¸º******ï¼› å…¶ä»–ç›´æ¥è¾“å‡º
 		 * 
 		 * @param cmd
 		 * @return

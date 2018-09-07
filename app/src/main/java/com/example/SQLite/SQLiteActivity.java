@@ -15,124 +15,128 @@ import com.example.hmail_Beta01.R;
 
 public class SQLiteActivity extends Activity implements OnClickListener {
 
-	private Button addBtn;
-	private Button deleteBtn;
-	private Button modifyBtn;
-	private Button showBtn;
-	private EditText nameEdit;
-	private TextView tv_show;
+    private Button addBtn;
+    private Button deleteBtn;
+    private Button modifyBtn;
+    private Button showBtn;
+    private EditText nameEdit;
+    private TextView tv_show;
 
-	private DBHelper dbhelper;
-	private SQLiteDatabase sqldb;
+    private DBHelper dbhelper;
+    private SQLiteDatabase sqldb;
 
-	private static final String TABLE_NAME = "student";
+    private static final String TABLE_NAME = "student";
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.sqlite_activity);
-		bindID();
-		dbhelper = new DBHelper(this, "demodb", null, 1);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.sqlite_activity);
+        bindID();
+        dbhelper = new DBHelper(this, "demodb", null, 1);
+    }
 
-	/**
-	 * °ó¶¨IDºÍ¼àÌıÊÂ¼ş
-	 */
-	private void bindID() {
-		addBtn = (Button) findViewById(R.id.addBtn);
-		deleteBtn = (Button) findViewById(R.id.deleteBtn);
-		modifyBtn = (Button) findViewById(R.id.modifyBtn);
-		showBtn = (Button) findViewById(R.id.showBtn);
-		nameEdit = (EditText) findViewById(R.id.nameEdit);
-		tv_show = (TextView) findViewById(R.id.tv_show);
+    /**
+     * ç»‘å®šIDå’Œç›‘å¬äº‹ä»¶
+     */
+    private void bindID() {
+        addBtn = (Button) findViewById(R.id.addBtn);
+        deleteBtn = (Button) findViewById(R.id.deleteBtn);
+        modifyBtn = (Button) findViewById(R.id.modifyBtn);
+        showBtn = (Button) findViewById(R.id.showBtn);
+        nameEdit = (EditText) findViewById(R.id.nameEdit);
+        tv_show = (TextView) findViewById(R.id.tv_show);
 
-		addBtn.setOnClickListener(this);
-		deleteBtn.setOnClickListener(this);
-		modifyBtn.setOnClickListener(this);
-		showBtn.setOnClickListener(this);
-	}
+        addBtn.setOnClickListener(this);
+        deleteBtn.setOnClickListener(this);
+        modifyBtn.setOnClickListener(this);
+        showBtn.setOnClickListener(this);
+    }
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.addBtn:
-			insert();
-			break;
-		case R.id.deleteBtn:
-			delete();
-			break;
-		case R.id.modifyBtn:
-			modify();
-			break;
-		case R.id.showBtn:
-			show();
-			break;
-		default:
-			break;
-		}
-	}
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.addBtn:
+                insert();
+                break;
+            case R.id.deleteBtn:
+                delete();
+                break;
+            case R.id.modifyBtn:
+                modify();
+                break;
+            case R.id.showBtn:
+                show();
+                break;
+            default:
+                break;
+        }
+    }
 
-	private void insert() {
-		String name = nameEdit.getText().toString();
-		// »ñµÃSQLiteDatabase¶ÔÏó£¬¶ÁĞ´Ä£Ê½
-		sqldb = dbhelper.getWritableDatabase();
-		// ContentValuesÀàËÆHashMap£¬Çø±ğÊÇContentValuesÖ»ÄÜ´æ¼òµ¥Êı¾İÀàĞÍ£¬²»ÄÜ´æ¶ÔÏó
-		ContentValues values = new ContentValues();
-		values.put("name", name);
-		values.put("age", 20);
-		values.put("gender", "ÄĞ");
-		// Ö´ĞĞ²åÈë²Ù×÷
-		sqldb.insert(TABLE_NAME, null, values);
-	}
+    private void insert() {
+        String name = nameEdit.getText().toString();
+        // è·å¾—SQLiteDatabaseå¯¹è±¡ï¼Œè¯»å†™æ¨¡å¼
+        sqldb = dbhelper.getWritableDatabase();
+        // ContentValuesç±»ä¼¼HashMapï¼ŒåŒºåˆ«æ˜¯ContentValuesåªèƒ½å­˜ç®€å•æ•°æ®ç±»å‹ï¼Œä¸èƒ½å­˜å¯¹è±¡
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("age", 20);
+        values.put("gender", "ç”·");
+        // æ‰§è¡Œæ’å…¥æ“ä½œ
+        sqldb.insert(TABLE_NAME, null, values);
+    }
 
-	private void delete() {
-		String value = nameEdit.getText().toString();
-		sqldb = dbhelper.getWritableDatabase();
-		// µÚ¶ş¸ö²ÎÊıÊÇWHEREÓï¾ä£¨¼´Ö´ĞĞÌõ¼ş£¬É¾³ıÄÄÌõÊı¾İ£©
-		// µÚÈı¸ö²ÎÊıÊÇWHEREÓï¾äÖĞÕ¼Î»·û£¨¼´"?"ºÅ£©µÄÌî³äÖµ
-		// É¾³ı name=valueµÄÊı¾İ
-		sqldb.delete(TABLE_NAME, "name=?", new String[] { value });
-	}
+    private void delete() {
+        String value = nameEdit.getText().toString();
+        sqldb = dbhelper.getWritableDatabase();
+        // ç¬¬äºŒä¸ªå‚æ•°æ˜¯WHEREè¯­å¥ï¼ˆå³æ‰§è¡Œæ¡ä»¶ï¼Œåˆ é™¤å“ªæ¡æ•°æ®ï¼‰
+        // ç¬¬ä¸‰ä¸ªå‚æ•°æ˜¯WHEREè¯­å¥ä¸­å ä½ç¬¦ï¼ˆå³"?"å·ï¼‰çš„å¡«å……å€¼
+        // åˆ é™¤ name=valueçš„æ•°æ®
+        sqldb.delete(TABLE_NAME, "name=?", new String[]{value});
+    }
 
-	private void modify() {
-		SQLiteDatabase sqldb = dbhelper.getWritableDatabase();
+    private void modify() {
+        SQLiteDatabase sqldb = dbhelper.getWritableDatabase();
 
-		ContentValues values = new ContentValues();
-		values.put("name", "zyt");
-		// µÚ¶ş¸ö²ÎÊıÊÇĞŞ¸ÄµÄ×Ö¶Î¼°ĞŞ¸ÄµÄÖµ(ÒÑ¾­´æ·Åµ½ContentValuesÖĞ)
-		// µÚÈı¸ö²ÎÊıÊÇWHEREÓï¾ä
-		// µÚËÄ¸ö²ÎÊıÊÇWHEREÓï¾äÖĞÕ¼Î»·ûµÄÌî³äÖµ
-		// Èç¹ûµÚÈıËÄ¸ö²ÎÊıÎªnull£¬ÄÇ¾Í½«Ã¿Ìõ¼ÇÂ¼¶¼¸Äµô£¬²Î¿¼É¾³ı·½·¨
-		sqldb.update(TABLE_NAME, values, null, null);
-	}
+        ContentValues values = new ContentValues();
+        values.put("name", "zyt");
+        // ç¬¬äºŒä¸ªå‚æ•°æ˜¯ä¿®æ”¹çš„å­—æ®µåŠä¿®æ”¹çš„å€¼(å·²ç»å­˜æ”¾åˆ°ContentValuesä¸­)
+        // ç¬¬ä¸‰ä¸ªå‚æ•°æ˜¯WHEREè¯­å¥
+        // ç¬¬å››ä¸ªå‚æ•°æ˜¯WHEREè¯­å¥ä¸­å ä½ç¬¦çš„å¡«å……å€¼
+        // å¦‚æœç¬¬ä¸‰å››ä¸ªå‚æ•°ä¸ºnullï¼Œé‚£å°±å°†æ¯æ¡è®°å½•éƒ½æ”¹æ‰ï¼Œå‚è€ƒåˆ é™¤æ–¹æ³•
+        sqldb.update(TABLE_NAME, values, null, null);
+    }
 
-	private void show() {
-		tv_show.setText("");
-		String string = "";
-		// µÃµ½Êı¾İ¿â¶ÔÏó
-		sqldb = dbhelper.getReadableDatabase();
-		// ´´½¨ÓÎ±ê
-		Cursor mCursor = sqldb.query(TABLE_NAME, new String[] { "id", "name",
-				"age", "gender" }, "age>?", new String[] { "10" }, null, null,
-				null);
-		// ÓÎ±êÖÃ¶¥
-		mCursor.moveToFirst();
-		// ±éÀú
-		do {
-			String name = mCursor.getString(mCursor.getColumnIndex("id"))
-					+ "/" + mCursor.getString(mCursor.getColumnIndex("name"))
-					+ "/" + mCursor.getString(mCursor.getColumnIndex("age"))
-					+ "/" + mCursor.getString(mCursor.getColumnIndex("gender"));
-			string = string + "\r\n" + name;
-			System.out.println(name);
-		} while (mCursor.moveToNext());
-		tv_show.setText(string);
-	}
+    private void show() {
+        tv_show.setText("");
+        String string = "";
+        // å¾—åˆ°æ•°æ®åº“å¯¹è±¡
+        sqldb = dbhelper.getReadableDatabase();
+        // åˆ›å»ºæ¸¸æ ‡
+        Cursor mCursor = sqldb.query(TABLE_NAME, new String[]{"id", "name",
+                        "age", "gender"}, "age>?", new String[]{"10"}, null, null,
+                null);
+        // æ¸¸æ ‡ç½®é¡¶
+        mCursor.moveToFirst();
+        // androidä¸­æ•°æ®åº“å¤„ç†ä½¿ç”¨cursoræ—¶ï¼Œæ¸¸æ ‡ä¸æ˜¯æ”¾åœ¨ä¸º0çš„ä¸‹æ ‡ï¼Œè€Œæ˜¯æ”¾åœ¨ä¸º-1çš„ä¸‹æ ‡å¤„å¼€å§‹çš„ã€‚
+        // ä¹Ÿå°±æ˜¯è¯´è¿”å›ç»™cursoræŸ¥è¯¢ç»“æœæ—¶ï¼Œä¸èƒ½å¤Ÿé©¬ä¸Šä»cursorä¸­æå–å€¼ã€‚
+        if (mCursor.moveToFirst()) {
+            // éå†
+            do {
+                String name = mCursor.getString(mCursor.getColumnIndex("id"))
+                        + "/" + mCursor.getString(mCursor.getColumnIndex("name"))
+                        + "/" + mCursor.getString(mCursor.getColumnIndex("age"))
+                        + "/" + mCursor.getString(mCursor.getColumnIndex("gender"));
+                string = string + "\r\n" + name;
+                System.out.println(name);
+            } while (mCursor.moveToNext());
+        }
+        tv_show.setText(string);
+    }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		// ÍË³ö³ÌĞòºó£¬¹Ø±ÕÊı¾İ¿â×ÊÔ´
-		sqldb.close();
-	}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // é€€å‡ºç¨‹åºåï¼Œå…³é—­æ•°æ®åº“èµ„æº
+        sqldb.close();
+    }
 }

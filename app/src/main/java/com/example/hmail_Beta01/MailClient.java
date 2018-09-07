@@ -42,53 +42,53 @@ public class MailClient implements Runnable {
 	private Object lock = new Object();
 	private String mailUser = null;
 	private String mailPass = null;
-	private String mailorder = null;// ²Ù×÷ĞòÁĞºÅ
-	private static String InputOk2 = null;// ÔÄ¶ÁÓÊ¼şĞòºÅ
+	private String mailorder = null;// æ“ä½œåºåˆ—å·
+	private static String InputOk2 = null;// é˜…è¯»é‚®ä»¶åºå·
 	static int mailnumber = 0;
-	StringBuffer mailNumberout = new StringBuffer();// ¼ÇÂ¼µÚ¼¸·â
+	StringBuffer mailNumberout = new StringBuffer();// è®°å½•ç¬¬å‡ å°
 	static String mailNumberArray[] = new String[100000];
-	StringBuffer mailTitleout = new StringBuffer();// ¼ÇÂ¼ÓÊ¼şÖ÷Ìâ
+	StringBuffer mailTitleout = new StringBuffer();// è®°å½•é‚®ä»¶ä¸»é¢˜
 	static String mailTitleArray[] = new String[100000];
-	StringBuffer mailDateout = new StringBuffer();// ¼ÇÂ¼·¢¼şÈÕÆÚ
+	StringBuffer mailDateout = new StringBuffer();// è®°å½•å‘ä»¶æ—¥æœŸ
 	static String mailDateArray[] = new String[100000];
-	static String mailDetailedDateArray[] = new String[100000];// ¼ÇÂ¼ÏêÏ¸ÈÕÆÚ
-	StringBuffer mailFromout = new StringBuffer();// ¼ÇÂ¼·¢¼şÈË
+	static String mailDetailedDateArray[] = new String[100000];// è®°å½•è¯¦ç»†æ—¥æœŸ
+	StringBuffer mailFromout = new StringBuffer();// è®°å½•å‘ä»¶äºº
 	static String mailFromArray[] = new String[100000];
-	StringBuffer mailStateout = new StringBuffer();// ¼ÇÂ¼ÓÊ¼ş×´Ì¬
+	StringBuffer mailStateout = new StringBuffer();// è®°å½•é‚®ä»¶çŠ¶æ€
 	static String mailStateArray[] = new String[100000];
-	static String[] mailContentArray = new String[100000];// ÓÊ¼şÕıÎÄ
-	static String[] mailFuJianNumArray = new String[100000];// ÓÊ¼ş¸½¼şÊı
-	static String[][] mailFuJianNameArray = new String[1000][1000];// ¸½¼şÃû
-	static String mailToArray[] = new String[100000];// ÊÕ¼şÈË
+	static String[] mailContentArray = new String[100000];// é‚®ä»¶æ­£æ–‡
+	static String[] mailFuJianNumArray = new String[100000];// é‚®ä»¶é™„ä»¶æ•°
+	static String[][] mailFuJianNameArray = new String[1000][1000];// é™„ä»¶å
+	static String mailToArray[] = new String[100000];// æ”¶ä»¶äºº
 	StringBuffer mailExistFuJian;
-	static String mailExistFuJianArray[] = new String[100000];// ÅĞ¶Ï´æÔÚ¸½¼ş
+	static String mailExistFuJianArray[] = new String[100000];// åˆ¤æ–­å­˜åœ¨é™„ä»¶
 	static int Judgelock = 1;
 
 	// Context context;
 
 	/**
-	 * µÃµ½ÓÊ¼ş×ÜÊı
+	 * å¾—åˆ°é‚®ä»¶æ€»æ•°
 	 */
 	public void setmailnumber(int mailnumber) {
 		this.mailnumber = mailnumber;
-		// System.out.println("ºóÌ¨ÖĞµÄÓÊ¼ş±êÌâ£º" + mailTitleArray[1]);
+		// System.out.println("åå°ä¸­çš„é‚®ä»¶æ ‡é¢˜ï¼š" + mailTitleArray[1]);
 		notifyActivity(1);
 		// LoginActivity.entryMainMenuInputMode();
 		// LoginActivity.StartNextActivity();
 		// ReturnHome.entryMainMenuInputMode();
 	}
 
-	public void setMailUser(String mailUser) {// µÃµ½µÄÓÃ»§Ãû
+	public void setMailUser(String mailUser) {// å¾—åˆ°çš„ç”¨æˆ·å
 		this.mailUser = mailUser;
 		// System.out.println(this.mailUser);
 	}
 
-	public void setMailPass(String mailPass) {// µÃµ½µÄÃÜÂë
+	public void setMailPass(String mailPass) {// å¾—åˆ°çš„å¯†ç 
 		this.mailPass = mailPass;
 		// System.out.println("Pass:"+this.mailPass);
 	}
 
-	public void setOrder(String mailorder) {// µÃµ½²Ù×÷ĞòºÅ
+	public void setOrder(String mailorder) {// å¾—åˆ°æ“ä½œåºå·
 		this.mailorder = mailorder;
 		try {
 			postUserInput(this.mailorder);
@@ -100,23 +100,23 @@ public class MailClient implements Runnable {
 	}
 
 	/**
-	 * µÃµ½ÓÃ»§ĞèÒª¶ÁÈ¡µÄÓÊ¼şĞòºÅ
+	 * å¾—åˆ°ç”¨æˆ·éœ€è¦è¯»å–çš„é‚®ä»¶åºå·
 	 * 
 	 * @param InputOk2
 	 */
-	public void setNumber(String InputOk2) {// µÃµ½ÓÊ¼şĞòºÅ
+	public void setNumber(String InputOk2) {// å¾—åˆ°é‚®ä»¶åºå·
 		this.InputOk2 = InputOk2;
 	}
 
 	/**
-	 * ´´½¨Óë·şÎñÆ÷µÄÁ¬½Ó
+	 * åˆ›å»ºä¸æœåŠ¡å™¨çš„è¿æ¥
 	 * 
 	 * @return
 	 */
 	private int connectToPopServ() {
 		int ret = 0;
 		try {
-			this.sock = new Socket("pop3.163.com", 110);// ´´½¨Óë·şÎñÆ÷µÄÁ¬½Ó
+			this.sock = new Socket("pop3.163.com", 110);// åˆ›å»ºä¸æœåŠ¡å™¨çš„è¿æ¥
 			this.sock.setSoTimeout(10 * 000);
 			// this.sock.connect(new InetSocketAddress("pop.163.com", 110),
 			// 10*000);
@@ -126,24 +126,24 @@ public class MailClient implements Runnable {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Óë·şÎñÆ÷Á¬½ÓÊ§°Ü£¬·µ»Øret = -1");
+			System.out.println("ä¸æœåŠ¡å™¨è¿æ¥å¤±è´¥ï¼Œè¿”å›ret = -1");
 			ret = -1;
 		}
-		return ret;// Á¬½Ó³É¹¦£¬ret = 0
+		return ret;// è¿æ¥æˆåŠŸï¼Œret = 0
 	}
 
 	/**
-	 * ÅĞ¶Ï·şÎñÆ÷ÊÇ·ñ·µ»Ø+ok
+	 * åˆ¤æ–­æœåŠ¡å™¨æ˜¯å¦è¿”å›+ok
 	 * 
 	 * @return
 	 */
-	public int getResp() {// ÅĞ¶Ï·şÎñÆ÷ÊÇ·ñ·µ»Ø +ok
+	public int getResp() {// åˆ¤æ–­æœåŠ¡å™¨æ˜¯å¦è¿”å› +ok
 		int ret = 0;
 		String line = null;
 		try {
 			line = reader.readLine();
-			System.out.println("·şÎñÆ÷·µ»Ø£º" + line);
-			if (line.startsWith("+OK")) { // ·şÎñÆ÷·µ»Ø +ok Ôò ret = 0
+			System.out.println("æœåŠ¡å™¨è¿”å›ï¼š" + line);
+			if (line.startsWith("+OK")) { // æœåŠ¡å™¨è¿”å› +ok åˆ™ ret = 0
 				ret = 0;
 			} else {
 				ret = 1;
@@ -157,10 +157,10 @@ public class MailClient implements Runnable {
 		return ret;
 	}
 
-	static int num2 = 0;// ÓÊ¼ş×ÜÊı
+	static int num2 = 0;// é‚®ä»¶æ€»æ•°
 
 	/**
-	 * list·µ»Ø+ok
+	 * listè¿”å›+ok
 	 * 
 	 * @return
 	 */
@@ -174,11 +174,11 @@ public class MailClient implements Runnable {
 			reader = new BufferedReader(new InputStreamReader(in));
 			out = new DataOutputStream(this.sock.getOutputStream());
 			line = reader.readLine();
-			System.out.println("·şÎñÆ÷·µ»Ø£º" + line);
-			if (line.startsWith("+OK")) { // ·şÎñÆ÷·µ»Ø +ok Ôò ret = 0
+			System.out.println("æœåŠ¡å™¨è¿”å›ï¼š" + line);
+			if (line.startsWith("+OK")) { // æœåŠ¡å™¨è¿”å› +ok åˆ™ ret = 0
 				num1 = line.split(" ");
 				num2 = (int) Double.parseDouble(num1[1]);
-				System.out.println("ÓÊ¼ş×ÜÊı£º" + num2);
+				System.out.println("é‚®ä»¶æ€»æ•°ï¼š" + num2);
 				ret = 0;
 			} else {
 				ret = 1;
@@ -193,7 +193,7 @@ public class MailClient implements Runnable {
 	}
 
 	/**
-	 * ÅĞ¶ÏÓÃ»§ÕÊºÅÃÜÂëÊÇ·ñÕıÈ·£» ÕıÈ·Êä³ö ¡°µÇÂ¼ÓÊÏäÕÊºÅ³É¹¦¡±
+	 * åˆ¤æ–­ç”¨æˆ·å¸å·å¯†ç æ˜¯å¦æ­£ç¡®ï¼› æ­£ç¡®è¾“å‡º â€œç™»å½•é‚®ç®±å¸å·æˆåŠŸâ€
 	 * 
 	 * @return
 	 */
@@ -207,7 +207,7 @@ public class MailClient implements Runnable {
 				if (ret == 0) {
 					ret = this.getResp();
 					if (ret == 0) {
-						System.out.println("µÇÂ¼ÓÊÏäÕÊºÅ³É¹¦£¡");
+						System.out.println("ç™»å½•é‚®ç®±å¸å·æˆåŠŸï¼");
 						loginsuccess = true;
 
 					}
@@ -219,7 +219,7 @@ public class MailClient implements Runnable {
 	}
 
 	/**
-	 * Êä³öÅäÖÃÎÄ¼şº¬passÔòÃÜÂë¸ÄÎª******£» ÆäËûÖ±½ÓÊä³ö
+	 * è¾“å‡ºé…ç½®æ–‡ä»¶å«passåˆ™å¯†ç æ”¹ä¸º******ï¼› å…¶ä»–ç›´æ¥è¾“å‡º
 	 * 
 	 * @param cmd
 	 * @return
@@ -243,16 +243,16 @@ public class MailClient implements Runnable {
 	}
 
 	/**
-	 * ÅĞ¶ÏÓÃ»§ÊäÈëµÄĞòºÅÊÇ·ñÎª1µ½4
+	 * åˆ¤æ–­ç”¨æˆ·è¾“å…¥çš„åºå·æ˜¯å¦ä¸º1åˆ°4
 	 * 
 	 * @param input
 	 * @return
 	 * @throws IOException
 	 */
-	private void postUserInput(String input) throws Exception {// ÊäÈë²Ù×÷ĞòºÅ
-		String order = input; // »ñµÃ²Ù×÷ĞòÁĞºÅ
+	private void postUserInput(String input) throws Exception {// è¾“å…¥æ“ä½œåºå·
+		String order = input; // è·å¾—æ“ä½œåºåˆ—å·
 		if (order.matches("[1-4]{1}")) {
-			int choice = Integer.parseInt(order);// ¶ÁÈ¡²Ù×÷Ì¨ÊäÈë×ª»»ÎªintÖµ
+			int choice = Integer.parseInt(order);// è¯»å–æ“ä½œå°è¾“å…¥è½¬æ¢ä¸ºintå€¼
 			boolean isBusy = true;
 
 			synchronized (lock) {
@@ -264,13 +264,13 @@ public class MailClient implements Runnable {
 				}
 			}
 			if (isBusy) {
-				// Toast.makeText(context, "ºóÌ¨Ïß³ÌÕıÔÚ´¦ÀíÖĞ£¬ÇëÉÔºòÔÙÑ¡Ôñ²Ù×÷Ö¸Áî£¡",
+				// Toast.makeText(context, "åå°çº¿ç¨‹æ­£åœ¨å¤„ç†ä¸­ï¼Œè¯·ç¨å€™å†é€‰æ‹©æ“ä½œæŒ‡ä»¤ï¼",
 				// Toast.LENGTH_SHORT).show();
-				System.out.println("ºóÌ¨Ïß³ÌÕıÔÚ´¦ÀíÖĞ£¬ÇëÉÔºòÔÙÑ¡Ôñ²Ù×÷Ö¸Áî£¡");
+				System.out.println("åå°çº¿ç¨‹æ­£åœ¨å¤„ç†ä¸­ï¼Œè¯·ç¨å€™å†é€‰æ‹©æ“ä½œæŒ‡ä»¤ï¼");
 			}
 		} else {
 
-			// Toast.makeText(context, "ÇëÊäÈëÖ¸¶¨·¶Î§ÄÚµÄĞòºÅ£¬ÖØĞÂÊäÈë",
+			// Toast.makeText(context, "è¯·è¾“å…¥æŒ‡å®šèŒƒå›´å†…çš„åºå·ï¼Œé‡æ–°è¾“å…¥",
 			// Toast.LENGTH_SHORT).show();
 			System.out.println("invalidate cmd !");
 		}
@@ -280,16 +280,16 @@ public class MailClient implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		if (connectToPopServ() == 0) {// ret = 0
-			if (getResp() == 0) {// ·şÎñÆ÷·µ»Ø +ok Ôò getResp() = 0
-				if (this.login() == 0) { // Êä³öµÇÂ¼ÓÊÏäÕÊºÅ³É¹¦
-					waitToProcessInput = 1;// µÇÂ¼ºóÁ¢¼´ÏÔÊ¾ÓÊ¼şÁĞ±í
+			if (getResp() == 0) {// æœåŠ¡å™¨è¿”å› +ok åˆ™ getResp() = 0
+				if (this.login() == 0) { // è¾“å‡ºç™»å½•é‚®ç®±å¸å·æˆåŠŸ
+					waitToProcessInput = 1;// ç™»å½•åç«‹å³æ˜¾ç¤ºé‚®ä»¶åˆ—è¡¨
 					do {
 						// System.out.println(this+":==>"+waitToProcessInput);
 						synchronized (lock) {
 							if (waitToProcessInput == 0) {
 								try {
-									// System.out.println("1ÃëË¢ĞÂ 1ÃëË¢ĞÂ 1ÃëË¢ĞÂ");
-									lock.wait(1000);// µÈ´ıÊäÈë£¬1000ºÁÃëË¢ĞÂÒ»´Î
+									// System.out.println("1ç§’åˆ·æ–° 1ç§’åˆ·æ–° 1ç§’åˆ·æ–°");
+									lock.wait(1000);// ç­‰å¾…è¾“å…¥ï¼Œ1000æ¯«ç§’åˆ·æ–°ä¸€æ¬¡
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -298,9 +298,9 @@ public class MailClient implements Runnable {
 								int value = waitToProcessInput;
 								waitToProcessInput = 0;
 								try {
-									System.out.println("¿ªÊ¼Ö´ĞĞĞòºÅ¶ÔÖ¸Áî");
+									System.out.println("å¼€å§‹æ‰§è¡Œåºå·å¯¹æŒ‡ä»¤");
 									process(value);
-									System.out.println("ÒÑÖ´ĞĞĞòºÅ¶ÔÖ¸Áî");// ÓÃ»§ÊäÈëµÄ²Ù×÷ÊıËù¶ÔÓ¦µÄÃüÁî
+									System.out.println("å·²æ‰§è¡Œåºå·å¯¹æŒ‡ä»¤");// ç”¨æˆ·è¾“å…¥çš„æ“ä½œæ•°æ‰€å¯¹åº”çš„å‘½ä»¤
 								} catch (IOException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -310,21 +310,21 @@ public class MailClient implements Runnable {
 
 							}
 						}
-						// ·ÀÖ¹ÓÊ¼ş»á»°³¬Ê±µÄ´¦Àí
+						// é˜²æ­¢é‚®ä»¶ä¼šè¯è¶…æ—¶çš„å¤„ç†
 						if (new Date().getTime() - lastCommuTime.getTime() > 10000) {
 							this.sendCmd("NOOP");
 							if (this.getResp() == 0) {
-								// »á»°Õı³£
+								// ä¼šè¯æ­£å¸¸
 								entryMainMenuInputMode();
 							} else {
-								System.out.println("ÓÊ¼ş»á»°¶Ï¿ª£¡");
+								System.out.println("é‚®ä»¶ä¼šè¯æ–­å¼€ï¼");
 								run = false;
 							}
 						}
 					} while (run);
 
 				} else {
-					System.out.println("ÕÊºÅÃÜÂë²»ÕıÈ·£¬³ÌĞòÍË³ö£¡");
+					System.out.println("å¸å·å¯†ç ä¸æ­£ç¡®ï¼Œç¨‹åºé€€å‡ºï¼");
 					entryMainMenuInputMode();
 					// System.exit(1);
 				}
@@ -336,13 +336,13 @@ notifyActivity(-1);
 		
 	}
 
-	// // ´´½¨FileOutputStream¶ÔÏó
+	// // åˆ›å»ºFileOutputStreamå¯¹è±¡
 	// FileOutputStream outputStream = null;
-	// // ´´½¨BufferedOutputStream¶ÔÏó
+	// // åˆ›å»ºBufferedOutputStreamå¯¹è±¡
 	// BufferedOutputStream bufferedOutputStream = null;
 
 	/**
-	 * ¶ÔÓÃ»§ÊäÈëµÄĞòºÅ½øĞĞÖ´ĞĞ
+	 * å¯¹ç”¨æˆ·è¾“å…¥çš„åºå·è¿›è¡Œæ‰§è¡Œ
 	 * 
 	 * @param value
 	 * @throws IOException
@@ -351,93 +351,93 @@ notifyActivity(-1);
 	private void process(int value) throws IOException {
 		switch (value) {
 		case 1: {
-			if (fileIsExists() == 0) {// ÅĞ¶Ï¼ÇÂ¼ÓÊ¼ş×´Ì¬ÎÄ¼ş´æÔÚ
+			if (fileIsExists() == 0) {// åˆ¤æ–­è®°å½•é‚®ä»¶çŠ¶æ€æ–‡ä»¶å­˜åœ¨
 				File file = new File("/mnt/sdcard/MailBeta_zyt/"
 						+ "mailstate.txt");
 				file.createNewFile();
-				System.out.println("ÒÑ¾­´´½¨Íê×´Ì¬¼ÇÂ¼ÎÄ¼ş£¡");
+				System.out.println("å·²ç»åˆ›å»ºå®ŒçŠ¶æ€è®°å½•æ–‡ä»¶ï¼");
 			}
 
-			readMailState();// ¶ÁÈ¡ÓÊ¼ş×´Ì¬ÎÄ¼ş
+			readMailState();// è¯»å–é‚®ä»¶çŠ¶æ€æ–‡ä»¶
 
 			// InsertMysql(mailUser, "1", "0");
 			this.sendCmd("list");
-			if (getResplist() == 0) {// µÃµ½ÓÊ¼ş×ÜÊı num2
+			if (getResplist() == 0) {// å¾—åˆ°é‚®ä»¶æ€»æ•° num2
 				System.out.println(getRespContent());
 			}
 			for (int mailId = 1; mailId <= num2; mailId++) {
 
 				this.sendCmd("retr " + mailId);
 				if (getResp() == 0) {
-					String content = getRespContent();// µÃµ½ÓÊ¼şµÄËùÓĞÄÚÈİ
-					// System.out.println("ÓÊ¼ş´óĞ¡£º"+content.length()+"×Ö½Ú");
+					String content = getRespContent();// å¾—åˆ°é‚®ä»¶çš„æ‰€æœ‰å†…å®¹
+					// System.out.println("é‚®ä»¶å¤§å°ï¼š"+content.length()+"å­—èŠ‚");
 					BufferedReader reader = new BufferedReader(
 							new StringReader(content));
 					String line = null;
-					// µÃµ½ÓÊ¼şÍ·²¿ĞÅÏ¢
+					// å¾—åˆ°é‚®ä»¶å¤´éƒ¨ä¿¡æ¯
 					Map<String, String> mailHeader = this
 							.getMailHeaderFromReader(reader);
-					System.out.println("===============µÚ " + mailId
-							+ " ·â==================");
-					mailNumberout.append("µÚ " + mailId + " ·â");
-					mailNumberArray[mailId] = "µÚ " + mailId + " ·â";
+					System.out.println("===============ç¬¬ " + mailId
+							+ " å°==================");
+					mailNumberout.append("ç¬¬ " + mailId + " å°");
+					mailNumberArray[mailId] = "ç¬¬ " + mailId + " å°";
 
-					System.out.println("ÓÊ¼şÖ÷Ìâ£º"
+					System.out.println("é‚®ä»¶ä¸»é¢˜ï¼š"
 							+ this.getBase64Content(mailHeader.get("Subject")));
-					mailTitleout.append("ÓÊ¼şÖ÷Ìâ£º"
+					mailTitleout.append("é‚®ä»¶ä¸»é¢˜ï¼š"
 							+ this.getBase64Content(mailHeader.get("Subject")));
 					mailTitleArray[mailId] = this.getBase64Content(mailHeader
 							.get("Subject"));
 
-//					System.out.println("·¢¼şÈÕÆÚ£º" + mailHeader.get("Date"));
-//					mailDateout.append("·¢¼şÈÕÆÚ£º" + mailHeader.get("Date"));
+//					System.out.println("å‘ä»¶æ—¥æœŸï¼š" + mailHeader.get("Date"));
+//					mailDateout.append("å‘ä»¶æ—¥æœŸï¼š" + mailHeader.get("Date"));
 					
 					mailDateArray[mailId] = translateMailDate(mailHeader.get("Date"));
-					System.out.println("·¢¼şÈÕÆÚ£º" +mailDateArray[mailId]);
+					System.out.println("å‘ä»¶æ—¥æœŸï¼š" +mailDateArray[mailId]);
 
-					System.out.println("·¢¼şÈË£º"
+					System.out.println("å‘ä»¶äººï¼š"
 							+ this.translateMailSender(mailHeader.get("From")));
-					mailFromout.append("·¢¼şÈË£º"
+					mailFromout.append("å‘ä»¶äººï¼š"
 							+ this.translateMailSender(mailHeader.get("From")));
 					mailFromArray[mailId] = this.translateMailSender(mailHeader
 							.get("From"))+" ";
 
-					System.out.println("ÊÕ¼şÈË£º" + mailHeader.get("To"));
+					System.out.println("æ”¶ä»¶äººï¼š" + mailHeader.get("To"));
 					mailToArray[mailId] = mailHeader.get("To");
 					String mailIdString = Integer.toString(mailId);
 					if (str.contains("/" + mailIdString + "/")) {
-						mailStateArray[mailId] = "ÒÑ¶Á";
+						mailStateArray[mailId] = "å·²è¯»";
 					} else {
-						mailStateArray[mailId] = "Î´¶Á";
+						mailStateArray[mailId] = "æœªè¯»";
 					}
 
 					System.out
 							.println("==========================================");
-					// Èç¹ûÓÊ¼ş´æÔÚ¶à¸ö×é³É²¿·Ö£¬Ôò´ÓÓÊ¼şÍ·ĞÅÏ¢ÖĞµÃµ½·Ö¸ô·û
+					// å¦‚æœé‚®ä»¶å­˜åœ¨å¤šä¸ªç»„æˆéƒ¨åˆ†ï¼Œåˆ™ä»é‚®ä»¶å¤´ä¿¡æ¯ä¸­å¾—åˆ°åˆ†éš”ç¬¦
 					String boundary = null;
 					String contentType = mailHeader.get("Content-Type");
 					System.out.println("Content-Type" + contentType);
-					if (contentType.indexOf("multipart") > -1) {// ÊÇ·ñÎª¸´ÔÓÌåÓÊ¼ş
+					if (contentType.indexOf("multipart") > -1) {// æ˜¯å¦ä¸ºå¤æ‚ä½“é‚®ä»¶
 						boundary = contentType.substring(contentType
-								.indexOf("boundary=") + 9);// Ç°9¸ö×Ö·ûÎªboundary=£¬ºóÃæ²ÅÊÇ·Ö¸ô·û
+								.indexOf("boundary=") + 9);// å‰9ä¸ªå­—ç¬¦ä¸ºboundary=ï¼Œåé¢æ‰æ˜¯åˆ†éš”ç¬¦
 						boundary = boundary.trim().replaceAll("\"", "");
-						// System.out.println("ÕâÒ»·â¶à²¿·Ö¹¹³ÉµÄÓÊ¼ş£¬·Ö¸ô·ûÎª:["+boundary+"]");
+						// System.out.println("è¿™ä¸€å°å¤šéƒ¨åˆ†æ„æˆçš„é‚®ä»¶ï¼Œåˆ†éš”ç¬¦ä¸º:["+boundary+"]");
 					}
 
 					boolean isEnd = false;
-					// ¿ìËÙÕÒµ½µÚÒ»¸ö·Ö¸ô·û£¬Å×ÆúÓÊ¼şÍ·ÓëµÚÒ»¸ö·Ö¸ô·ûÖĞ¼äµÄ²¿·Ö£¬Ô­Òò²é¿´·µ»ØµÄÓÊ¼şÄÚÈİ
-					// µÚÒ»¸ö·Ö¸ô·ûºó¾ÍÊÇµÚÒ»¸ö¸½¼şµÄÄÚÈİ£¬½âÎöÓÊ¼şµÄ¸÷¸ö¸½¼ş
+					// å¿«é€Ÿæ‰¾åˆ°ç¬¬ä¸€ä¸ªåˆ†éš”ç¬¦ï¼ŒæŠ›å¼ƒé‚®ä»¶å¤´ä¸ç¬¬ä¸€ä¸ªåˆ†éš”ç¬¦ä¸­é—´çš„éƒ¨åˆ†ï¼ŒåŸå› æŸ¥çœ‹è¿”å›çš„é‚®ä»¶å†…å®¹
+					// ç¬¬ä¸€ä¸ªåˆ†éš”ç¬¦åå°±æ˜¯ç¬¬ä¸€ä¸ªé™„ä»¶çš„å†…å®¹ï¼Œè§£æé‚®ä»¶çš„å„ä¸ªé™„ä»¶
 					List<StringBuffer> part = new ArrayList<StringBuffer>();
 					StringBuffer partContent = new StringBuffer();
 					while (!isEnd) {
 						while (true) {
 							line = reader.readLine();
-							// System.out.println(line);// ¿ØÖÆÌ¨Êä³öµÃµ½µÄÓÊ¼şËùÓĞÄÚÈİ
+							// System.out.println(line);// æ§åˆ¶å°è¾“å‡ºå¾—åˆ°çš„é‚®ä»¶æ‰€æœ‰å†…å®¹
 							if (line == null) {
 								isEnd = true;
 								break;
 							} else if (line.equals("--" + boundary)) {
-								// ´Ë´¦Òª¼Ó"--"µÄÔ­Òò£¬²é¿´·µ»ØµÄÓÊ¼şÄÚÈİÀïµÄ·Ö¸ô·û
+								// æ­¤å¤„è¦åŠ "--"çš„åŸå› ï¼ŒæŸ¥çœ‹è¿”å›çš„é‚®ä»¶å†…å®¹é‡Œçš„åˆ†éš”ç¬¦
 								if (partContent.length() > 0) {
 									System.out.println("#######NEW PART######");
 									part.add(partContent);
@@ -445,7 +445,7 @@ notifyActivity(-1);
 								partContent = new StringBuffer();
 								break;
 							} else if (line.equals("--" + boundary + "--")) {
-								// ´Ë´¦Ç°ºó¶¼Òª¼Ó"--"µÄÔ­Òò£¬²é¿´·µ»ØµÄÓÊ¼şÄÚÈİÀïµÄ·Ö¸ô·û ½áÊø´Ë·Ö¸ô·û
+								// æ­¤å¤„å‰åéƒ½è¦åŠ "--"çš„åŸå› ï¼ŒæŸ¥çœ‹è¿”å›çš„é‚®ä»¶å†…å®¹é‡Œçš„åˆ†éš”ç¬¦ ç»“æŸæ­¤åˆ†éš”ç¬¦
 								if (partContent.length() > 0) {
 									System.out
 											.println("#######NEW  PART######");
@@ -460,24 +460,24 @@ notifyActivity(-1);
 					}
 					System.out.println("=================================");
 
-					System.out.println("ÓÊ¼şÖ÷Ìâ£º"
+					System.out.println("é‚®ä»¶ä¸»é¢˜ï¼š"
 							+ this.getBase64Content(mailHeader.get("Subject")));
 
-					System.out.println("ÓÊ¼ş´óĞ¡£º" + content.length() + "×Ö½Ú");
+					System.out.println("é‚®ä»¶å¤§å°ï¼š" + content.length() + "å­—èŠ‚");
 
-					System.out.println("ÓÊ¼ş×Ü¹²ÓĞ" + part.size() + "¸ö²¿·Ö");
+					System.out.println("é‚®ä»¶æ€»å…±æœ‰" + part.size() + "ä¸ªéƒ¨åˆ†");
 					for (int i = 0; i < part.size(); i++) {
 						int mailId2 = mailId;
 						System.out.println("  part[" + (i + 1) + "]:"
-								+ part.get(i).length() + "×Ö½Ú(°üº¬Í·²¿ĞÅÏ¢)");
-						System.out.println("×Ö·û´®Îª£º" + part.get(i));
+								+ part.get(i).length() + "å­—èŠ‚(åŒ…å«å¤´éƒ¨ä¿¡æ¯)");
+						System.out.println("å­—ç¬¦ä¸²ä¸ºï¼š" + part.get(i));
 						if (i != 0) {
 							int FuJianNum = part.size() - 1;
-							System.out.println("ÓÊ¼şÖĞ°üº¬¸½¼ş!" + "\n" + "¸½¼şÊıÎª£º "
-									+ FuJianNum);// ÔÚÃ÷ÎÄÖĞÏÔÊ¾ÓÊ¼ş¸½¼ş¸öÊı
+							System.out.println("é‚®ä»¶ä¸­åŒ…å«é™„ä»¶!" + "\n" + "é™„ä»¶æ•°ä¸ºï¼š "
+									+ FuJianNum);// åœ¨æ˜æ–‡ä¸­æ˜¾ç¤ºé‚®ä»¶é™„ä»¶ä¸ªæ•°
 
 							String FuJianNum_2 = Integer.toString(FuJianNum);
-							mailFuJianNumArray[mailId2] = FuJianNum_2;// ÏÔÊ¾µ½Ò³ÃæÉÏµÄ¸½¼şÊı
+							mailFuJianNumArray[mailId2] = FuJianNum_2;// æ˜¾ç¤ºåˆ°é¡µé¢ä¸Šçš„é™„ä»¶æ•°
 						}
 					}
 				}
@@ -494,42 +494,42 @@ notifyActivity(-1);
 			this.sendCmd("retr " + mailId);
 			// InsertMysql(mailUser, "2", mailId);
 			if (getResp() == 0) {
-				String content = getRespContent();// µÃµ½ÓÊ¼şµÄËùÓĞÄÚÈİ
-				// System.out.println("ÓÊ¼ş´óĞ¡£º"+content.length()+"×Ö½Ú");
+				String content = getRespContent();// å¾—åˆ°é‚®ä»¶çš„æ‰€æœ‰å†…å®¹
+				// System.out.println("é‚®ä»¶å¤§å°ï¼š"+content.length()+"å­—èŠ‚");
 				BufferedReader reader = new BufferedReader(new StringReader(
 						content));
 				String line = null;
-				// µÃµ½ÓÊ¼şÍ·²¿ĞÅÏ¢
+				// å¾—åˆ°é‚®ä»¶å¤´éƒ¨ä¿¡æ¯
 				Map<String, String> mailHeader = this
 						.getMailHeaderFromReader(reader);
 
 				mailDetailedDateArray[mailId2] = translateMailDetailedDate(mailHeader.get("Date"));
-				System.out.println("·¢¼şÈÕÆÚ£º" +mailDetailedDateArray[mailId2]);
-				// Èç¹ûÓÊ¼ş´æÔÚ¶à¸ö×é³É²¿·Ö£¬Ôò´ÓÓÊ¼şÍ·ĞÅÏ¢ÖĞµÃµ½·Ö¸ô·û
+				System.out.println("å‘ä»¶æ—¥æœŸï¼š" +mailDetailedDateArray[mailId2]);
+				// å¦‚æœé‚®ä»¶å­˜åœ¨å¤šä¸ªç»„æˆéƒ¨åˆ†ï¼Œåˆ™ä»é‚®ä»¶å¤´ä¿¡æ¯ä¸­å¾—åˆ°åˆ†éš”ç¬¦
 				String boundary = null;
 				String contentType = mailHeader.get("Content-Type");
 				System.out.println("Content-Type" + contentType);
-				if (contentType.indexOf("multipart") > -1) {// ÊÇ·ñÎª¸´ÔÓÌåÓÊ¼ş
+				if (contentType.indexOf("multipart") > -1) {// æ˜¯å¦ä¸ºå¤æ‚ä½“é‚®ä»¶
 					boundary = contentType.substring(contentType
-							.indexOf("boundary=") + 9);// Ç°9¸ö×Ö·ûÎªboundary=£¬ºóÃæ²ÅÊÇ·Ö¸ô·û
+							.indexOf("boundary=") + 9);// å‰9ä¸ªå­—ç¬¦ä¸ºboundary=ï¼Œåé¢æ‰æ˜¯åˆ†éš”ç¬¦
 					boundary = boundary.trim().replaceAll("\"", "");
-					// System.out.println("ÕâÒ»·â¶à²¿·Ö¹¹³ÉµÄÓÊ¼ş£¬·Ö¸ô·ûÎª:["+boundary+"]");
+					// System.out.println("è¿™ä¸€å°å¤šéƒ¨åˆ†æ„æˆçš„é‚®ä»¶ï¼Œåˆ†éš”ç¬¦ä¸º:["+boundary+"]");
 				}
 
 				boolean isEnd = false;
-				// ¿ìËÙÕÒµ½µÚÒ»¸ö·Ö¸ô·û£¬Å×ÆúÓÊ¼şÍ·ÓëµÚÒ»¸ö·Ö¸ô·ûÖĞ¼äµÄ²¿·Ö£¬Ô­Òò²é¿´·µ»ØµÄÓÊ¼şÄÚÈİ
-				// µÚÒ»¸ö·Ö¸ô·ûºó¾ÍÊÇµÚÒ»¸ö¸½¼şµÄÄÚÈİ£¬½âÎöÓÊ¼şµÄ¸÷¸ö¸½¼ş
+				// å¿«é€Ÿæ‰¾åˆ°ç¬¬ä¸€ä¸ªåˆ†éš”ç¬¦ï¼ŒæŠ›å¼ƒé‚®ä»¶å¤´ä¸ç¬¬ä¸€ä¸ªåˆ†éš”ç¬¦ä¸­é—´çš„éƒ¨åˆ†ï¼ŒåŸå› æŸ¥çœ‹è¿”å›çš„é‚®ä»¶å†…å®¹
+				// ç¬¬ä¸€ä¸ªåˆ†éš”ç¬¦åå°±æ˜¯ç¬¬ä¸€ä¸ªé™„ä»¶çš„å†…å®¹ï¼Œè§£æé‚®ä»¶çš„å„ä¸ªé™„ä»¶
 				List<StringBuffer> part = new ArrayList<StringBuffer>();
 				StringBuffer partContent = new StringBuffer();
 				while (!isEnd) {
 					while (true) {
 						line = reader.readLine();
-//						System.out.println(line);// ¿ØÖÆÌ¨Êä³öµÃµ½µÄÓÊ¼şËùÓĞÄÚÈİ
+//						System.out.println(line);// æ§åˆ¶å°è¾“å‡ºå¾—åˆ°çš„é‚®ä»¶æ‰€æœ‰å†…å®¹
 						if (line == null) {
 							isEnd = true;
 							break;
 						} else if (line.equals("--" + boundary)) {
-							// ´Ë´¦Òª¼Ó"--"µÄÔ­Òò£¬²é¿´·µ»ØµÄÓÊ¼şÄÚÈİÀïµÄ·Ö¸ô·û
+							// æ­¤å¤„è¦åŠ "--"çš„åŸå› ï¼ŒæŸ¥çœ‹è¿”å›çš„é‚®ä»¶å†…å®¹é‡Œçš„åˆ†éš”ç¬¦
 							if (partContent.length() > 0) {
 								System.out.println("#######NEW PART######");
 								part.add(partContent);
@@ -537,7 +537,7 @@ notifyActivity(-1);
 							partContent = new StringBuffer();
 							break;
 						} else if (line.equals("--" + boundary + "--")) {
-							// ´Ë´¦Ç°ºó¶¼Òª¼Ó"--"µÄÔ­Òò£¬²é¿´·µ»ØµÄÓÊ¼şÄÚÈİÀïµÄ·Ö¸ô·û ½áÊø´Ë·Ö¸ô·û
+							// æ­¤å¤„å‰åéƒ½è¦åŠ "--"çš„åŸå› ï¼ŒæŸ¥çœ‹è¿”å›çš„é‚®ä»¶å†…å®¹é‡Œçš„åˆ†éš”ç¬¦ ç»“æŸæ­¤åˆ†éš”ç¬¦
 							if (partContent.length() > 0) {
 								System.out.println("#######NEW  PART######");
 								part.add(partContent);
@@ -551,44 +551,44 @@ notifyActivity(-1);
 				}
 				System.out.println("=================================");
 				out.append("=================================");
-				System.out.println("ÓÊ¼şÖ÷Ìâ£º"
+				System.out.println("é‚®ä»¶ä¸»é¢˜ï¼š"
 						+ this.getBase64Content(mailHeader.get("Subject")));
-				out.append("ÓÊ¼şÖ÷Ìâ£º"
+				out.append("é‚®ä»¶ä¸»é¢˜ï¼š"
 						+ this.getBase64Content(mailHeader.get("Subject")));
-				System.out.println("ÓÊ¼ş´óĞ¡£º" + content.length() + "×Ö½Ú");
-				out.append("ÓÊ¼ş´óĞ¡£º" + content.length() + "×Ö½Ú");
-				System.out.println("ÓÊ¼ş×Ü¹²ÓĞ" + part.size() + "¸ö²¿·Ö");
+				System.out.println("é‚®ä»¶å¤§å°ï¼š" + content.length() + "å­—èŠ‚");
+				out.append("é‚®ä»¶å¤§å°ï¼š" + content.length() + "å­—èŠ‚");
+				System.out.println("é‚®ä»¶æ€»å…±æœ‰" + part.size() + "ä¸ªéƒ¨åˆ†");
 				for (int i = 0; i < part.size(); i++) {
 					System.out.println("  part[" + (i + 1) + "]:"
-							+ part.get(i).length() + "×Ö½Ú(°üº¬Í·²¿ĞÅÏ¢)");
-					System.out.println("×Ö·û´®Îª£º" + part.get(i));
+							+ part.get(i).length() + "å­—èŠ‚(åŒ…å«å¤´éƒ¨ä¿¡æ¯)");
+					System.out.println("å­—ç¬¦ä¸²ä¸ºï¼š" + part.get(i));
 					if (i != 0) {
 						int FuJianNum = part.size() - 1;
-						System.out.println("ÓÊ¼şÖĞ°üº¬¸½¼ş!" + "\n" + "¸½¼şÊıÎª£º "
-								+ FuJianNum);// ÔÚÃ÷ÎÄÖĞÏÔÊ¾ÓÊ¼ş¸½¼ş¸öÊı
-						out.append("ÓÊ¼şÖĞ°üº¬¸½¼ş!" + "\n" + "¸½¼şÊıÎª£º " + FuJianNum);
+						System.out.println("é‚®ä»¶ä¸­åŒ…å«é™„ä»¶!" + "\n" + "é™„ä»¶æ•°ä¸ºï¼š "
+								+ FuJianNum);// åœ¨æ˜æ–‡ä¸­æ˜¾ç¤ºé‚®ä»¶é™„ä»¶ä¸ªæ•°
+						out.append("é‚®ä»¶ä¸­åŒ…å«é™„ä»¶!" + "\n" + "é™„ä»¶æ•°ä¸ºï¼š " + FuJianNum);
 						String FuJianNum_2 = Integer.toString(FuJianNum);
-						mailFuJianNumArray[mailId2] = FuJianNum_2;// ÏÔÊ¾µ½Ò³ÃæÉÏµÄ¸½¼şÊı
+						mailFuJianNumArray[mailId2] = FuJianNum_2;// æ˜¾ç¤ºåˆ°é¡µé¢ä¸Šçš„é™„ä»¶æ•°
 						String mailFuJianName = (part.get(i)).substring((part
 								.get(i)).indexOf("name=\"") + 6);
-						System.out.println("¸½¼şÃû½ØÈ¡1£º" + mailFuJianName);// ½ØÈ¡name="Ö®ºóµÄ×Ö·û´®
+						System.out.println("é™„ä»¶åæˆªå–1ï¼š" + mailFuJianName);// æˆªå–name="ä¹‹åçš„å­—ç¬¦ä¸²
 						mailFuJianName = mailFuJianName
 								.split("\"Content-Transfer-Encoding:")[0]
 								.toString();
-						System.out.println("¸½¼şÃû½ØÈ¡2£º" + mailFuJianName);
-						if (mailFuJianName.contains("?")) {// ¸½¼şÃû½âÂë³ÉÃ÷ÎÄ
+						System.out.println("é™„ä»¶åæˆªå–2ï¼š" + mailFuJianName);
+						if (mailFuJianName.contains("?")) {// é™„ä»¶åè§£ç æˆæ˜æ–‡
 							String FuJianNameCharset;
 							String FuJianNameTxt = "";
 							FuJianNameCharset = mailFuJianName.split("[?]")[1]
 									.toString();
-							System.out.println("¸½¼şÃû±àÂë¸ñÊ½½ØÈ¡3£º"
+							System.out.println("é™„ä»¶åç¼–ç æ ¼å¼æˆªå–3ï¼š"
 									+ FuJianNameCharset);
 							FuJianNameTxt = mailFuJianName.split("[?]")[3]
 									.toString();
-							System.out.println("¸½¼şÃû±àÂëÄÚÈİ½ØÈ¡4£º" + FuJianNameTxt);
+							System.out.println("é™„ä»¶åç¼–ç å†…å®¹æˆªå–4ï¼š" + FuJianNameTxt);
 							byte[] asBytes = Base64.decode(FuJianNameTxt,
 									Base64.DEFAULT);
-							;// Í¨¹ıbase64½âÂë³ÉÃ÷ÎÄ
+							;// é€šè¿‡base64è§£ç æˆæ˜æ–‡
 							System.out.println(new String(asBytes,
 									FuJianNameCharset));
 							mailFuJianNameArray[mailId2][i] = new String(asBytes,
@@ -597,34 +597,34 @@ notifyActivity(-1);
 							mailFuJianNameArray[mailId2][i] = mailFuJianName;
 						}
 					}
-					if (i == 0) {// µÚÒ»¸öÊı×éÀïÃæÒ»°ãÎªÃ÷ÎÄ
+					if (i == 0) {// ç¬¬ä¸€ä¸ªæ•°ç»„é‡Œé¢ä¸€èˆ¬ä¸ºæ˜æ–‡
 						System.out.println(part.get(i));
 						String mailTxt = (part.get(i)).substring((part.get(i))
-								.indexOf("base64") + 6);// ½ØÈ¡base64Ö®ºóµÄ×Ö·û´®
-						mailTxt = mailTxt.split("--")[0].toString();// Í¨¹ı "--"
-						// ¶Ô×Ö·û´®½øĞĞ·Ö¸î£¬µÃµ½Ã÷ÎÄ±àÂë
-						System.out.println("½ØÈ¡ºóµÄ×Ö·û´®£º" + mailTxt);
+								.indexOf("base64") + 6);// æˆªå–base64ä¹‹åçš„å­—ç¬¦ä¸²
+						mailTxt = mailTxt.split("--")[0].toString();// é€šè¿‡ "--"
+						// å¯¹å­—ç¬¦ä¸²è¿›è¡Œåˆ†å‰²ï¼Œå¾—åˆ°æ˜æ–‡ç¼–ç 
+						System.out.println("æˆªå–åçš„å­—ç¬¦ä¸²ï¼š" + mailTxt);
 
 						String mailTxtCharest = (part.get(i)).substring((part
-								.get(i)).indexOf("charset") + 8);// ½ØÈ¡charest=Ö®ºóµÄ×Ö·û´®
+								.get(i)).indexOf("charset") + 8);// æˆªå–charest=ä¹‹åçš„å­—ç¬¦ä¸²
 						mailTxtCharest = mailTxtCharest
 								.split("Content-Transfer-Encoding:")[0]
-								.toString();// Í¨¹ı
-						System.out.println("½ØÈ¡ºóµÄ×Ö·û´®2£º" + mailTxtCharest); // ¶Ô×Ö·û´®½øĞĞ·Ö¸î£¬µÃµ½Ã÷ÎÄ±àÂë¸ñÊ½
+								.toString();// é€šè¿‡
+						System.out.println("æˆªå–åçš„å­—ç¬¦ä¸²2ï¼š" + mailTxtCharest); // å¯¹å­—ç¬¦ä¸²è¿›è¡Œåˆ†å‰²ï¼Œå¾—åˆ°æ˜æ–‡ç¼–ç æ ¼å¼
 
-						if (mailTxtCharest.contains("\"")) {// gb18030µÄ±àÂë¸ñÊ½´øË«ÒıºÅ£¬ĞèÒªÈ¥µô£¬Èç£ºContent-Type:
+						if (mailTxtCharest.contains("\"")) {// gb18030çš„ç¼–ç æ ¼å¼å¸¦åŒå¼•å·ï¼Œéœ€è¦å»æ‰ï¼Œå¦‚ï¼šContent-Type:
 															// text/plain;
 							// charset="gb18030"
 							mailTxtCharest = mailTxtCharest.replace("\"", "");
 						}
-						byte[] asBytes = Base64.decode(mailTxt, Base64.DEFAULT);// Í¨¹ıbase64½âÂë³ÉÃ÷ÎÄ
+						byte[] asBytes = Base64.decode(mailTxt, Base64.DEFAULT);// é€šè¿‡base64è§£ç æˆæ˜æ–‡
 						System.out.println(new String(asBytes, mailTxtCharest));
 						out.append(new String(asBytes, mailTxtCharest));
 						mailContentArray[mailId2] = new String(asBytes,
 								mailTxtCharest);
 
 						System.out.println("mailId2 = " + mailId2);
-						System.out.println("ÓÊ¼şÄÚÈİÊı×é£º"
+						System.out.println("é‚®ä»¶å†…å®¹æ•°ç»„ï¼š"
 								+ mailContentArray[mailId2]);
 						// ShowContent.entryMainMenuInputMode();
 
@@ -633,10 +633,10 @@ notifyActivity(-1);
 			}
 //			do {
 //				// MailListActivity.entryMainMenuInputMode();
-//			} while (Judgelock == 1);// ±ÜÃâ·¢ÉúÔÚÉÏËøÇ°ÓÉÓÚÓÊ¼ş½âÂë¿ìÌáÇ°ÊÍ·ÅËøµ¼ÖÂÉÏËøºóÎŞ·¨ÊÍ·ÅµÄÇé¿ö·¢Éú£¡
+//			} while (Judgelock == 1);// é¿å…å‘ç”Ÿåœ¨ä¸Šé”å‰ç”±äºé‚®ä»¶è§£ç å¿«æå‰é‡Šæ”¾é”å¯¼è‡´ä¸Šé”åæ— æ³•é‡Šæ”¾çš„æƒ…å†µå‘ç”Ÿï¼
 			writeMailState("/mnt/sdcard/MailBeta_zyt/mailstate.txt", str + "/"
-					+ mailId + "/");// ÔÚÔÄ¶ÁÓÊ¼şºó¼ÇÂ¼ÔÄ¶ÁÓÊ¼şµÄĞòºÅ
-			str = str + "/" + mailId + "/";// ½«Ö®Ç°µÄÔÄ¶ÁĞòºÅ¼ÓÔÚÇ°Ãæ
+					+ mailId + "/");// åœ¨é˜…è¯»é‚®ä»¶åè®°å½•é˜…è¯»é‚®ä»¶çš„åºå·
+			str = str + "/" + mailId + "/";// å°†ä¹‹å‰çš„é˜…è¯»åºå·åŠ åœ¨å‰é¢
 			
 			notifyActivity(2);
 		}
@@ -647,40 +647,40 @@ notifyActivity(-1);
 			this.sendCmd("retr " + mailId);
 			// InsertMysql(mailUser, "3", mailId);
 			if (getResp() == 0) {
-				String content = getRespContent();// µÃµ½ÓÊ¼şµÄËùÓĞÄÚÈİ
-				// System.out.println("ÓÊ¼ş´óĞ¡£º"+content.length()+"×Ö½Ú");
+				String content = getRespContent();// å¾—åˆ°é‚®ä»¶çš„æ‰€æœ‰å†…å®¹
+				// System.out.println("é‚®ä»¶å¤§å°ï¼š"+content.length()+"å­—èŠ‚");
 				BufferedReader reader = new BufferedReader(new StringReader(
 						content));
 				String line = null;
-				// µÃµ½ÓÊ¼şÍ·²¿ĞÅÏ¢
+				// å¾—åˆ°é‚®ä»¶å¤´éƒ¨ä¿¡æ¯
 				Map<String, String> mailHeader = this
 						.getMailHeaderFromReader(reader);
 
-				// Èç¹ûÓÊ¼ş´æÔÚ¶à¸ö×é³É²¿·Ö£¬Ôò´ÓÓÊ¼şÍ·ĞÅÏ¢ÖĞµÃµ½·Ö¸ô·û
+				// å¦‚æœé‚®ä»¶å­˜åœ¨å¤šä¸ªç»„æˆéƒ¨åˆ†ï¼Œåˆ™ä»é‚®ä»¶å¤´ä¿¡æ¯ä¸­å¾—åˆ°åˆ†éš”ç¬¦
 				String boundary = null;
 				String contentType = mailHeader.get("Content-Type");
 				System.out.println("Content-Type" + contentType);
-				if (contentType.indexOf("multipart") > -1) {// ÊÇ·ñÎª¸´ÔÓÌåÓÊ¼ş
+				if (contentType.indexOf("multipart") > -1) {// æ˜¯å¦ä¸ºå¤æ‚ä½“é‚®ä»¶
 					boundary = contentType.substring(contentType
-							.indexOf("boundary=") + 9);// Ç°9¸ö×Ö·ûÎªboundary=£¬ºóÃæ²ÅÊÇ·Ö¸ô·û
+							.indexOf("boundary=") + 9);// å‰9ä¸ªå­—ç¬¦ä¸ºboundary=ï¼Œåé¢æ‰æ˜¯åˆ†éš”ç¬¦
 					boundary = boundary.trim().replaceAll("\"", "");
-					// System.out.println("ÕâÒ»·â¶à²¿·Ö¹¹³ÉµÄÓÊ¼ş£¬·Ö¸ô·ûÎª:["+boundary+"]");
+					// System.out.println("è¿™ä¸€å°å¤šéƒ¨åˆ†æ„æˆçš„é‚®ä»¶ï¼Œåˆ†éš”ç¬¦ä¸º:["+boundary+"]");
 				}
 
 				boolean isEnd = false;
-				// ¿ìËÙÕÒµ½µÚÒ»¸ö·Ö¸ô·û£¬Å×ÆúÓÊ¼şÍ·ÓëµÚÒ»¸ö·Ö¸ô·ûÖĞ¼äµÄ²¿·Ö£¬Ô­ÒòÇë×Ô¼º²é¿´·µ»ØµÄÓÊ¼şÄÚÈİ
-				// µÚÒ»¸ö·Ö¸ô·ûºó¾ÍÊÇµÚÒ»¸ö¸½¼şµÄÄÚÈİ£¬½âÎöÓÊ¼şµÄ¸÷¸ö¸½¼ş
+				// å¿«é€Ÿæ‰¾åˆ°ç¬¬ä¸€ä¸ªåˆ†éš”ç¬¦ï¼ŒæŠ›å¼ƒé‚®ä»¶å¤´ä¸ç¬¬ä¸€ä¸ªåˆ†éš”ç¬¦ä¸­é—´çš„éƒ¨åˆ†ï¼ŒåŸå› è¯·è‡ªå·±æŸ¥çœ‹è¿”å›çš„é‚®ä»¶å†…å®¹
+				// ç¬¬ä¸€ä¸ªåˆ†éš”ç¬¦åå°±æ˜¯ç¬¬ä¸€ä¸ªé™„ä»¶çš„å†…å®¹ï¼Œè§£æé‚®ä»¶çš„å„ä¸ªé™„ä»¶
 				List<StringBuffer> part = new ArrayList<StringBuffer>();
 				StringBuffer partContent = new StringBuffer();
 				while (!isEnd) {
 					while (true) {
 						line = reader.readLine();
-						System.out.println(line);// ¿ØÖÆÌ¨Êä³öµÃµ½µÄÓÊ¼şËùÓĞÄÚÈİ
+						System.out.println(line);// æ§åˆ¶å°è¾“å‡ºå¾—åˆ°çš„é‚®ä»¶æ‰€æœ‰å†…å®¹
 						if (line == null) {
 							isEnd = true;
 							break;
 						} else if (line.equals("--" + boundary)) {
-							// ´Ë´¦Òª¼Ó"--"µÄÔ­Òò£¬Çë×Ô¼ºÈ¥²é¿´·µ»ØµÄÓÊ¼şÄÚÈİÀïµÄ·Ö¸ô·û
+							// æ­¤å¤„è¦åŠ "--"çš„åŸå› ï¼Œè¯·è‡ªå·±å»æŸ¥çœ‹è¿”å›çš„é‚®ä»¶å†…å®¹é‡Œçš„åˆ†éš”ç¬¦
 							if (partContent.length() > 0) {
 								System.out.println("#######NEW PART######");
 								part.add(partContent);
@@ -688,7 +688,7 @@ notifyActivity(-1);
 							partContent = new StringBuffer();
 							break;
 						} else if (line.equals("--" + boundary + "--")) {
-							// ´Ë´¦Ç°ºó¶¼Òª¼Ó"--"µÄÔ­Òò£¬Çë×Ô¼ºÈ¥²é¿´·µ»ØµÄÓÊ¼şÄÚÈİÀïµÄ·Ö¸ô·û ½áÊø´Ë·Ö¸ô·û
+							// æ­¤å¤„å‰åéƒ½è¦åŠ "--"çš„åŸå› ï¼Œè¯·è‡ªå·±å»æŸ¥çœ‹è¿”å›çš„é‚®ä»¶å†…å®¹é‡Œçš„åˆ†éš”ç¬¦ ç»“æŸæ­¤åˆ†éš”ç¬¦
 							if (partContent.length() > 0) {
 								System.out
 										.println("#######NEW 2222222 PART######");
@@ -702,21 +702,21 @@ notifyActivity(-1);
 					}
 				}
 				System.out.println("=================================");
-				System.out.println("ÓÊ¼şÖ÷Ìâ£º"
+				System.out.println("é‚®ä»¶ä¸»é¢˜ï¼š"
 						+ this.getBase64Content(mailHeader.get("Subject")));
-				System.out.println("ÓÊ¼ş´óĞ¡£º" + content.length() + "×Ö½Ú");
-				System.out.println("ÓÊ¼ş×Ü¹²ÓĞ" + part.size() + "¸ö²¿·Ö");
-				for (int i = 0; i < part.size(); i++) { // Ò»°ãµÚÒ»¸öÎªÓÊ¼şÎÄ×Ö£¬µÚ¶ş¸ö¿ªÊ¼ÎªÓÊ¼ş¸½¼ş
+				System.out.println("é‚®ä»¶å¤§å°ï¼š" + content.length() + "å­—èŠ‚");
+				System.out.println("é‚®ä»¶æ€»å…±æœ‰" + part.size() + "ä¸ªéƒ¨åˆ†");
+				for (int i = 0; i < part.size(); i++) { // ä¸€èˆ¬ç¬¬ä¸€ä¸ªä¸ºé‚®ä»¶æ–‡å­—ï¼Œç¬¬äºŒä¸ªå¼€å§‹ä¸ºé‚®ä»¶é™„ä»¶
 					System.out.println("  part[" + (i + 1) + "]:"
-							+ part.get(i).length() + "×Ö½Ú(°üº¬Í·²¿ĞÅÏ¢)");
-					System.out.println("×Ö·û´®Îª£º" + part.get(i));
+							+ part.get(i).length() + "å­—èŠ‚(åŒ…å«å¤´éƒ¨ä¿¡æ¯)");
+					System.out.println("å­—ç¬¦ä¸²ä¸ºï¼š" + part.get(i));
 					StringBuffer FuJian = part.get(i);
 					int ImageJpg = FuJian.indexOf("Content-Type: image/jpeg");
 					int msword = FuJian
 							.indexOf("Content-Type: application/msword");
 					int conf = FuJian
 							.indexOf("Content-Type: application/octet-stream");
-					// System.out.println("ÊÇ·ñº¬ÓĞconf "+conf); // ÓĞÔòÊä³ö 0£¬Ã»ÓĞÎª -1
+					// System.out.println("æ˜¯å¦å«æœ‰conf "+conf); // æœ‰åˆ™è¾“å‡º 0ï¼Œæ²¡æœ‰ä¸º -1
 					if (ImageJpg == 0) {
 
 						// String fileName=i + ".jpg";
@@ -725,11 +725,11 @@ notifyActivity(-1);
 						// fileName);
 						String mailImage = (part.get(i))
 								.substring((part.get(i))
-										.indexOf("Content-Type") + 1);// ½ØÈ¡×Ö·û´®
-						mailImage = mailImage.split("\"")[4].toString();// Í¨¹ı
-																		// "ºÍ--
-						mailImage = mailImage.split("--")[0].toString();// ¶Ô×Ö·û´®½øĞĞ·Ö¸î£¬µÃµ½Ã÷ÎÄ±àÂë
-						System.out.println("½ØÈ¡ºóµÄ×Ö·û´®£º" + mailImage);
+										.indexOf("Content-Type") + 1);// æˆªå–å­—ç¬¦ä¸²
+						mailImage = mailImage.split("\"")[4].toString();// é€šè¿‡
+																		// "å’Œ--
+						mailImage = mailImage.split("--")[0].toString();// å¯¹å­—ç¬¦ä¸²è¿›è¡Œåˆ†å‰²ï¼Œå¾—åˆ°æ˜æ–‡ç¼–ç 
+						System.out.println("æˆªå–åçš„å­—ç¬¦ä¸²ï¼š" + mailImage);
 						byte[] base64Decoding = Base64.decode(mailImage,
 								Base64.DEFAULT);
 						writeImageToDisk(base64Decoding, mailFuJianNameArray[mailId2][i] );
@@ -738,13 +738,13 @@ notifyActivity(-1);
 					if (msword == 0) {
 						String mailImage = (part.get(i))
 								.substring((part.get(i))
-										.indexOf("Content-Type") + 1);// ½ØÈ¡×Ö·û´®
-						mailImage = mailImage.split("\"")[4].toString();// Í¨¹ı
-																		// "ºÍ--
-						mailImage = mailImage.split("--")[0].toString();// ¶Ô×Ö·û´®½øĞĞ·Ö¸î£¬µÃµ½Ã÷ÎÄ±àÂë
-						System.out.println("½ØÈ¡ºóµÄ×Ö·û´®£º" + mailImage);
+										.indexOf("Content-Type") + 1);// æˆªå–å­—ç¬¦ä¸²
+						mailImage = mailImage.split("\"")[4].toString();// é€šè¿‡
+																		// "å’Œ--
+						mailImage = mailImage.split("--")[0].toString();// å¯¹å­—ç¬¦ä¸²è¿›è¡Œåˆ†å‰²ï¼Œå¾—åˆ°æ˜æ–‡ç¼–ç 
+						System.out.println("æˆªå–åçš„å­—ç¬¦ä¸²ï¼š" + mailImage);
 						byte[] base64Decoding = Base64.decode(mailImage,
-								Base64.DEFAULT);// ½âÂë
+								Base64.DEFAULT);// è§£ç 
 						writeImageToDisk(base64Decoding,mailFuJianNameArray[mailId2][i]);
 						// Files.write(
 						// Paths.get("D:\\Eclipse\\eclipseJ2EE\\DocumentStorage\\MailWeb02Beta\\"
@@ -754,13 +754,13 @@ notifyActivity(-1);
 					if (conf == 0) {
 						String mailImage = (part.get(i))
 								.substring((part.get(i))
-										.indexOf("Content-Type") + 1);// ½ØÈ¡×Ö·û´®
-						mailImage = mailImage.split("\"")[4].toString();// Í¨¹ı
-																		// "ºÍ--
-						mailImage = mailImage.split("--")[0].toString();// ¶Ô×Ö·û´®½øĞĞ·Ö¸î£¬µÃµ½Ã÷ÎÄ±àÂë
-						System.out.println("½ØÈ¡ºóµÄ×Ö·û´®£º" + mailImage);
+										.indexOf("Content-Type") + 1);// æˆªå–å­—ç¬¦ä¸²
+						mailImage = mailImage.split("\"")[4].toString();// é€šè¿‡
+																		// "å’Œ--
+						mailImage = mailImage.split("--")[0].toString();// å¯¹å­—ç¬¦ä¸²è¿›è¡Œåˆ†å‰²ï¼Œå¾—åˆ°æ˜æ–‡ç¼–ç 
+						System.out.println("æˆªå–åçš„å­—ç¬¦ä¸²ï¼š" + mailImage);
 						byte[] base64Decoding = Base64.decode(mailImage,
-								Base64.DEFAULT);// ½âÂë
+								Base64.DEFAULT);// è§£ç 
 						writeImageToDisk(base64Decoding, mailFuJianNameArray[mailId2][i] );
 
 					}
@@ -775,7 +775,7 @@ notifyActivity(-1);
 		case 4: {
 			this.sendCmd("quit");
 			if (getResp() == 0) {
-				System.out.println("POP»á»°¼´½«ÖĞÖ¹£¡");
+				System.out.println("POPä¼šè¯å³å°†ä¸­æ­¢ï¼");
 				run = false;
 			}
 		}
@@ -785,7 +785,7 @@ notifyActivity(-1);
 	}
 
 	/**
-	 * Í¨ÖªUIÏß³ÌÌáÊ¾ÓÃ»§ÊäÈëÓÊ¼şĞòºÅ£¬²¢·µ»ØĞòºÅÄÚÈİ
+	 * é€šçŸ¥UIçº¿ç¨‹æç¤ºç”¨æˆ·è¾“å…¥é‚®ä»¶åºå·ï¼Œå¹¶è¿”å›åºå·å†…å®¹
 	 * 
 	 * @return
 	 * @throws IOException
@@ -793,20 +793,20 @@ notifyActivity(-1);
 	public String getMailIDFromConsole() throws IOException {
 		String ret = null;
 		while (true) {
-			System.out.print("ÇëÊäÈëÒªÓÊ¼şĞòºÅ£º");
+			System.out.print("è¯·è¾“å…¥è¦é‚®ä»¶åºå·ï¼š");
 			String line = reader.readLine();
 			if (line.matches("\\d{1,4}")) {
 				ret = line;
 				break;
 			} else {
-				System.out.println("ÓÊ¼şĞòºÅ¸ñÊ½²»ÕıÈ·£¡");
+				System.out.println("é‚®ä»¶åºå·æ ¼å¼ä¸æ­£ç¡®ï¼");
 			}
 		}
 		return ret;
 	}
 
 	/**
-	 * ÏÔÊ¾listÓÊ¼şÁĞ±í
+	 * æ˜¾ç¤ºlisté‚®ä»¶åˆ—è¡¨
 	 * 
 	 * @return
 	 */
@@ -815,7 +815,7 @@ notifyActivity(-1);
 		String line = null;
 		int respCode = 0;
 		try {
-			while ((line = reader.readLine()) != null) {// µÃµ½·şÎñÆ÷´«À´Êı¾İ
+			while ((line = reader.readLine()) != null) {// å¾—åˆ°æœåŠ¡å™¨ä¼ æ¥æ•°æ®
 				sb.append(line);
 				sb.append("\r\n");
 				if (line.equals(".")) {
@@ -831,7 +831,7 @@ notifyActivity(-1);
 	}
 
 	/**
-	 * ¶ÁÈ¡ÓÊ¼şµÄÍ·²¿ĞÅÏ¢
+	 * è¯»å–é‚®ä»¶çš„å¤´éƒ¨ä¿¡æ¯
 	 * 
 	 * @param reader
 	 * @return Map<String, String>
@@ -842,7 +842,7 @@ notifyActivity(-1);
 		Map<String, String> mailHeader = new HashMap<String, String>();
 		StringBuffer headerString = null;
 		String line = null;
-		// ´ÓÓÊ¼şÄÚÈİÖĞ·ÖÎöÓÊ¼şÍ·ĞÅÏ¢
+		// ä»é‚®ä»¶å†…å®¹ä¸­åˆ†æé‚®ä»¶å¤´ä¿¡æ¯
 		while (true) {
 			line = reader.readLine();
 			// System.out.println("line:"+line);
@@ -867,7 +867,7 @@ notifyActivity(-1);
 			} else {
 				if (headerString != null && headerString.length() > 0) {
 					int index;
-					if ((index = headerString.indexOf(":")) > 0) {// ±ÜÃâÍ·ÎÄ¼ş×îºó´ø±àÂëµÄÖ»¼ÇÂ¼ÁË´æÔÚ¡°£º¡±µÄĞĞ
+					if ((index = headerString.indexOf(":")) > 0) {// é¿å…å¤´æ–‡ä»¶æœ€åå¸¦ç¼–ç çš„åªè®°å½•äº†å­˜åœ¨â€œï¼šâ€çš„è¡Œ
 						String headerName = headerString.substring(0, index)
 								.trim();
 						String headerValue = headerString.substring(index + 1)
@@ -883,41 +883,41 @@ notifyActivity(-1);
 	}
 
 	/**
-	 * ·­Òë²ÉÓÃBase64±àÂëµÄÄÚÈİ´®<br>
-	 * ÄÚÈİ¸ñÊ½Èç£º=?GB2312?B?u9i4tDogyPyw2S3E3MGmzOHJ/cH5xtottPrC68nzvMa94bn70+
+	 * ç¿»è¯‘é‡‡ç”¨Base64ç¼–ç çš„å†…å®¹ä¸²<br>
+	 * å†…å®¹æ ¼å¼å¦‚ï¼š=?GB2312?B?u9i4tDogyPyw2S3E3MGmzOHJ/cH5xtottPrC68nzvMa94bn70+
 	 * s0QcjV1r692M28?=
 	 * 
 	 * @param base64Str
 	 * @return
 	 */
-	public String getBase64Content(String base64Str) {// ½âÂëÓÊ¼şÍ·ÖØÒªĞÅÏ¢
+	public String getBase64Content(String base64Str) {// è§£ç é‚®ä»¶å¤´é‡è¦ä¿¡æ¯
 		// =?GB2312?B?u9i4tDogyPyw2S3E3MGmzOHJ/cH5xtottPrC68nzvMa94bn70+s0QcjV1r692M28?=
 		String content = "";
-		if (base64Str.startsWith("=?") && base64Str.endsWith("?=")) {// ÅĞ¶ÏÓÊ¼şÍ·º¬
+		if (base64Str.startsWith("=?") && base64Str.endsWith("?=")) {// åˆ¤æ–­é‚®ä»¶å¤´å«
 			// =?xxx?B?xxxxxx?=
-			// µÄ×Ö·û´®
-			base64Str = base64Str.substring(2, base64Str.length() - 2);// ÌáÈ¡ÓÊ¼şÍ·
+			// çš„å­—ç¬¦ä¸²
+			base64Str = base64Str.substring(2, base64Str.length() - 2);// æå–é‚®ä»¶å¤´
 			// =?xxx?B?xxxxxx?=
-			// ×Ö·û´®µÄĞÅÏ¢
-			String[] strs = base64Str.split("\\?");// ÓÃ ? À´·Ö¸î×Ö·û´®
+			// å­—ç¬¦ä¸²çš„ä¿¡æ¯
+			String[] strs = base64Str.split("\\?");// ç”¨ ? æ¥åˆ†å‰²å­—ç¬¦ä¸²
 			String charset = strs[0];
-			base64Str = strs[2];// ±àÂëµÄ×Ö·û´®¸³Öµ
+			base64Str = strs[2];// ç¼–ç çš„å­—ç¬¦ä¸²èµ‹å€¼
 			if ((strs[1] != null && strs[1].equals("B"))
-					|| (strs[1] != null && strs[1].equals("b"))) {// ÓÊ¼şÖ÷ÌâÓĞ´óĞ´ºÍĞ¡Ğ´µÄB
+					|| (strs[1] != null && strs[1].equals("b"))) {// é‚®ä»¶ä¸»é¢˜æœ‰å¤§å†™å’Œå°å†™çš„B
 				try {
 					content = new String(Base64.decode(base64Str,
-							Base64.DEFAULT), charset);// ½âÂë×Ö·û´®
+							Base64.DEFAULT), charset);// è§£ç å­—ç¬¦ä¸²
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
-		return content;// ·µ»ØÒÑ¾­½âÂëÁËµÄÓÊ¼şÍ·ĞÅÏ¢
+		return content;// è¿”å›å·²ç»è§£ç äº†çš„é‚®ä»¶å¤´ä¿¡æ¯
 	}
 
 	/**
-	 * ½«·¢¼şÈËĞÅÏ¢·­Òë³ÉÃ÷ÎÄ
+	 * å°†å‘ä»¶äººä¿¡æ¯ç¿»è¯‘æˆæ˜æ–‡
 	 * 
 	 * @param str
 	 * @return
@@ -943,7 +943,7 @@ notifyActivity(-1);
 		return ret.toString();
 	}
 	/**
-	 * ½«·¢¼şÊ±¼ä·­Òë³ÉÃ÷ÎÄ
+	 * å°†å‘ä»¶æ—¶é—´ç¿»è¯‘æˆæ˜æ–‡
 	 * @param str
 	 * @return 
 	 * @return
@@ -952,51 +952,51 @@ private String translateMailDate(String str){
 	String ret = new String();
 	String[] mans = str.split("\\s+");
 	System.out.println(">>>>>>>>>>>>>>>"+mans[1] +"+"+ mans[2] + "<<<<<<<<<<<<<<<<<");
-	if(mans[2].indexOf("Jan")!=-1){ret = "1ÔÂ"+mans[1]+"ÈÕ";System.out.println("1ÔÂ");}
-	if(mans[2].indexOf("Feb")!=-1){ret = "2ÔÂ"+mans[1]+"ÈÕ";System.out.println("2ÔÂ");}
-	if(mans[2].indexOf("Mar")!=-1){ret = "3ÔÂ"+mans[1]+"ÈÕ";System.out.println("3ÔÂ");}
-	if(mans[2].indexOf("Apr")!=-1){ret = "4ÔÂ"+mans[1]+"ÈÕ";System.out.println("4ÔÂ");}
-	if(mans[2].indexOf("May")!=-1){ret = "5ÔÂ"+mans[1]+"ÈÕ";System.out.println("5ÔÂ");}
-	if(mans[2].indexOf("Jun")!=-1){ret = "6ÔÂ"+mans[1]+"ÈÕ";System.out.println("6ÔÂ");}
-	if(mans[2].indexOf("Jul")!=-1){ret = "7ÔÂ"+mans[1]+"ÈÕ";System.out.println("7ÔÂ");}
-	if(mans[2].indexOf("Aug")!=-1){ret = "8ÔÂ"+mans[1]+"ÈÕ";System.out.println("8ÔÂ");}
-	if(mans[2].indexOf("Sep")!=-1 ){ret = "9ÔÂ"+mans[1]+"ÈÕ";System.out.println("9ÔÂ");}
-	if(mans[2].indexOf("Oct")!=-1){ret = "10ÔÂ"+mans[1]+"ÈÕ";System.out.println("10ÔÂ");}
-	if(mans[2].indexOf("Nov")!=-1){ret = "11ÔÂ"+mans[1]+"ÈÕ";System.out.println("11ÔÂ");}
-	if(mans[2].indexOf("Dec")!=-1){ret = "12ÔÂ"+mans[1]+"ÈÕ";System.out.println("12ÔÂ");}
-	System.out.println("ret£º"+ret);
+	if(mans[2].indexOf("Jan")!=-1){ret = "1æœˆ"+mans[1]+"æ—¥";System.out.println("1æœˆ");}
+	if(mans[2].indexOf("Feb")!=-1){ret = "2æœˆ"+mans[1]+"æ—¥";System.out.println("2æœˆ");}
+	if(mans[2].indexOf("Mar")!=-1){ret = "3æœˆ"+mans[1]+"æ—¥";System.out.println("3æœˆ");}
+	if(mans[2].indexOf("Apr")!=-1){ret = "4æœˆ"+mans[1]+"æ—¥";System.out.println("4æœˆ");}
+	if(mans[2].indexOf("May")!=-1){ret = "5æœˆ"+mans[1]+"æ—¥";System.out.println("5æœˆ");}
+	if(mans[2].indexOf("Jun")!=-1){ret = "6æœˆ"+mans[1]+"æ—¥";System.out.println("6æœˆ");}
+	if(mans[2].indexOf("Jul")!=-1){ret = "7æœˆ"+mans[1]+"æ—¥";System.out.println("7æœˆ");}
+	if(mans[2].indexOf("Aug")!=-1){ret = "8æœˆ"+mans[1]+"æ—¥";System.out.println("8æœˆ");}
+	if(mans[2].indexOf("Sep")!=-1 ){ret = "9æœˆ"+mans[1]+"æ—¥";System.out.println("9æœˆ");}
+	if(mans[2].indexOf("Oct")!=-1){ret = "10æœˆ"+mans[1]+"æ—¥";System.out.println("10æœˆ");}
+	if(mans[2].indexOf("Nov")!=-1){ret = "11æœˆ"+mans[1]+"æ—¥";System.out.println("11æœˆ");}
+	if(mans[2].indexOf("Dec")!=-1){ret = "12æœˆ"+mans[1]+"æ—¥";System.out.println("12æœˆ");}
+	System.out.println("retï¼š"+ret);
 	return ret;
 }
 /**
- * ½«·¢¼şÊ±¼ä·­Òë³ÉÏêÏ¸Ã÷ÎÄ
+ * å°†å‘ä»¶æ—¶é—´ç¿»è¯‘æˆè¯¦ç»†æ˜æ–‡
  * @return
  */
 private String translateMailDetailedDate(String str){
 	String ret = new String();
 	String[] mans = str.split("\\s+");
 	System.out.println(">>>>>>>>>>>>>>>"+mans[1] +"+"+ mans[2] +"+"+ mans[3] +"+"+mans[4] + "<<<<<<<<<<<<<<<<<");
-	if(mans[2].indexOf("Jan")!=-1){ret = mans[3] +"Äê" + "1ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("1ÔÂ");}
-	if(mans[2].indexOf("Feb")!=-1){ret =  mans[3] +"Äê" +"2ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("2ÔÂ");}
-	if(mans[2].indexOf("Mar")!=-1){ret =  mans[3] +"Äê" +"3ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("3ÔÂ");}
-	if(mans[2].indexOf("Apr")!=-1){ret =  mans[3] +"Äê" +"4ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("4ÔÂ");}
-	if(mans[2].indexOf("May")!=-1){ret =  mans[3] +"Äê" +"5ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("5ÔÂ");}
-	if(mans[2].indexOf("Jun")!=-1){ret =  mans[3] +"Äê" +"6ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("6ÔÂ");}
-	if(mans[2].indexOf("Jul")!=-1){ret =  mans[3] +"Äê" +"7ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("7ÔÂ");}
-	if(mans[2].indexOf("Aug")!=-1){ret =  mans[3] +"Äê" +"8ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("8ÔÂ");}
-	if(mans[2].indexOf("Sep")!=-1 ){ret = mans[3] +"Äê" +"9ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("9ÔÂ");}
-	if(mans[2].indexOf("Oct")!=-1){ret = mans[3] +"Äê" + "10ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("10ÔÂ");}
-	if(mans[2].indexOf("Nov")!=-1){ret =  mans[3] +"Äê" +"11ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("11ÔÂ");}
-	if(mans[2].indexOf("Dec")!=-1){ret =  mans[3] +"Äê" +"12ÔÂ"+mans[1]+"ÈÕ"+mans[4];System.out.println("12ÔÂ");}
-	System.out.println("ret£º"+ret);
+	if(mans[2].indexOf("Jan")!=-1){ret = mans[3] +"å¹´" + "1æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("1æœˆ");}
+	if(mans[2].indexOf("Feb")!=-1){ret =  mans[3] +"å¹´" +"2æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("2æœˆ");}
+	if(mans[2].indexOf("Mar")!=-1){ret =  mans[3] +"å¹´" +"3æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("3æœˆ");}
+	if(mans[2].indexOf("Apr")!=-1){ret =  mans[3] +"å¹´" +"4æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("4æœˆ");}
+	if(mans[2].indexOf("May")!=-1){ret =  mans[3] +"å¹´" +"5æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("5æœˆ");}
+	if(mans[2].indexOf("Jun")!=-1){ret =  mans[3] +"å¹´" +"6æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("6æœˆ");}
+	if(mans[2].indexOf("Jul")!=-1){ret =  mans[3] +"å¹´" +"7æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("7æœˆ");}
+	if(mans[2].indexOf("Aug")!=-1){ret =  mans[3] +"å¹´" +"8æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("8æœˆ");}
+	if(mans[2].indexOf("Sep")!=-1 ){ret = mans[3] +"å¹´" +"9æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("9æœˆ");}
+	if(mans[2].indexOf("Oct")!=-1){ret = mans[3] +"å¹´" + "10æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("10æœˆ");}
+	if(mans[2].indexOf("Nov")!=-1){ret =  mans[3] +"å¹´" +"11æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("11æœˆ");}
+	if(mans[2].indexOf("Dec")!=-1){ret =  mans[3] +"å¹´" +"12æœˆ"+mans[1]+"æ—¥"+mans[4];System.out.println("12æœˆ");}
+	System.out.println("retï¼š"+ret);
 	return ret;
 }
 	/**
-	 * ½«Í¼Æ¬Ğ´Èëµ½´ÅÅÌ
+	 * å°†å›¾ç‰‡å†™å…¥åˆ°ç£ç›˜
 	 * 
 	 * @param img
-	 *            Í¼Æ¬Êı¾İÁ÷
+	 *            å›¾ç‰‡æ•°æ®æµ
 	 * @param fileName
-	 *            ÎÄ¼ş±£´æÊ±µÄÃû³Æ
+	 *            æ–‡ä»¶ä¿å­˜æ—¶çš„åç§°
 	 */
 	public void writeImageToDisk(byte[] img, String fileName) {
 		try {
@@ -1012,20 +1012,20 @@ private String translateMailDetailedDate(String str){
 	}
 
 	/**
-	 * µÇÂ¼ºóÅĞ¶ÏÊÇ·ñ´æÔÚÓÊ¼ş×´Ì¬¼ÇÂ¼ÎÄ¼ş
+	 * ç™»å½•ååˆ¤æ–­æ˜¯å¦å­˜åœ¨é‚®ä»¶çŠ¶æ€è®°å½•æ–‡ä»¶
 	 * 
 	 * @return
 	 */
 	public int fileIsExists() {
-		System.out.println("½øÈë×´Ì¬ÎÄ¼şÅĞ¶Ï");
+		System.out.println("è¿›å…¥çŠ¶æ€æ–‡ä»¶åˆ¤æ–­");
 		File f = new File("/mnt/sdcard/MailBeta_zyt/mailstate.txt");
 		if (!f.exists()) {
-			System.out.println("ÎŞ×´Ì¬ÎÄ¼ş£¬´´½¨Â·¾¶");
+			System.out.println("æ— çŠ¶æ€æ–‡ä»¶ï¼Œåˆ›å»ºè·¯å¾„");
 			File createFile = new File("/mnt/sdcard/MailBeta_zyt");
 			createFile.mkdirs();
 			return 0;
 		} else {
-			System.out.println("ÓĞ×´Ì¬ÎÄ¼ş£¬·µ»Ø1");
+			System.out.println("æœ‰çŠ¶æ€æ–‡ä»¶ï¼Œè¿”å›1");
 			return 1;
 		}
 	}
@@ -1033,7 +1033,7 @@ private String translateMailDetailedDate(String str){
 	String str = "";
 
 	/**
-	 * ¶ÁÈ¡ÓÊ¼ş×´Ì¬¼ÇÂ¼ÎÄ¼şĞòºÅ
+	 * è¯»å–é‚®ä»¶çŠ¶æ€è®°å½•æ–‡ä»¶åºå·
 	 */
 	public void readMailState() throws IOException {
 		File urlFile = new File("/mnt/sdcard/MailBeta_zyt/mailstate.txt");
@@ -1042,19 +1042,19 @@ private String translateMailDetailedDate(String str){
 		BufferedReader br = new BufferedReader(isr);
 
 		String mimeTypeLine = null;
-		while ((mimeTypeLine = br.readLine()) != null) {// ¶ÁÈ¡ĞòºÅ
+		while ((mimeTypeLine = br.readLine()) != null) {// è¯»å–åºå·
 			str = str + mimeTypeLine;
 		}
 	}
 
 	/**
-	 * Ğ´£¬ ¶ÁsdcardÄ¿Â¼ÉÏµÄÎÄ¼ş£¬ÒªÓÃFileOutputStream£¬ ²»ÄÜÓÃopenFileOutput
-	 * ²»Í¬µã£ºopenFileOutputÊÇÔÚrawÀï±àÒë¹ıµÄ£¬FileOutputStreamÊÇÈÎºÎÎÄ¼ş¶¼¿ÉÒÔ
+	 * å†™ï¼Œ è¯»sdcardç›®å½•ä¸Šçš„æ–‡ä»¶ï¼Œè¦ç”¨FileOutputStreamï¼Œ ä¸èƒ½ç”¨openFileOutput
+	 * ä¸åŒç‚¹ï¼šopenFileOutputæ˜¯åœ¨rawé‡Œç¼–è¯‘è¿‡çš„ï¼ŒFileOutputStreamæ˜¯ä»»ä½•æ–‡ä»¶éƒ½å¯ä»¥
 	 * 
 	 * @param fileName
 	 * @param message
 	 */
-	// Ğ´ÔÚ/mnt/sdcard/Ä¿Â¼ÏÂÃæµÄÎÄ¼ş
+	// å†™åœ¨/mnt/sdcard/ç›®å½•ä¸‹é¢çš„æ–‡ä»¶
 	public void writeMailState(String fileName, String message) {
 
 		try {
@@ -1076,7 +1076,7 @@ private String translateMailDetailedDate(String str){
 	}
 
 	/**
-	 * ÏëÖ÷Ïß³Ì·¢ËÍmessage
+	 * æƒ³ä¸»çº¿ç¨‹å‘é€message
 	 * 
 	 * @param msg
 	 */
@@ -1091,12 +1091,12 @@ private String translateMailDetailedDate(String str){
 		if (msg == 2) {
 			message.what = LoginActivity.toContentActivity;
 		}
-		LoginActivity.handler.sendMessage(message); // ½«Message¶ÔÏó·¢ËÍ³öÈ¥
+		LoginActivity.handler.sendMessage(message); // å°†Messageå¯¹è±¡å‘é€å‡ºå»
 
 	}
 
 	// /**
-	// * ½«ÓÃ»§µÄ²Ù×÷¼ÇÂ¼µ½mysql
+	// * å°†ç”¨æˆ·çš„æ“ä½œè®°å½•åˆ°mysql
 	// */
 	// public void InsertMysql(String mailUser, String mailValue, String
 	// mailNumber) {
@@ -1131,41 +1131,41 @@ private String translateMailDetailedDate(String str){
 	// }
 	//
 	// /**
-	// * ²éÑ¯±¾ĞòºÅÓÊ¼şÊÇ·ñÓĞÔÄ¶Á¼ÇÂ¼
+	// * æŸ¥è¯¢æœ¬åºå·é‚®ä»¶æ˜¯å¦æœ‰é˜…è¯»è®°å½•
 	// *
 	// * @param mailUser
 	// * @param mailNumber
 	// * @return
 	// */
 	// public int mailStateInMysql(String mailUser, int mailNumber) {
-	// // Çı¶¯³ÌĞòÃû
+	// // é©±åŠ¨ç¨‹åºå
 	// String driver = "com.mysql.jdbc.Driver";
-	// // Êı¾İ±íurl
+	// // æ•°æ®è¡¨url
 	// String url = "jdbc:mysql://localhost:3306/student";
-	// // MySQLÓÃ»§Ãû
+	// // MySQLç”¨æˆ·å
 	// String user = "root";
-	// // MySQLÃÜÂë
+	// // MySQLå¯†ç 
 	// String password = "12345678";
-	// // ´æ´¢·µ»Ø×´Ì¬
+	// // å­˜å‚¨è¿”å›çŠ¶æ€
 	// String state = null;
-	// // ¿ªÊ¼Á¬½ÓÊı¾İ¿â
+	// // å¼€å§‹è¿æ¥æ•°æ®åº“
 	// try {
-	// // ¼ÓÔØÇı¶¯³ÌĞò
+	// // åŠ è½½é©±åŠ¨ç¨‹åº
 	// Class.forName(driver);
-	// // Á¬ĞøÊı¾İ¿â
+	// // è¿ç»­æ•°æ®åº“
 	// Connection conn = DriverManager.getConnection(url, user, password);
 	// if (!conn.isClosed())
 	// System.out.println("connecting to the database successfully!");
-	// // statementÓÃÀ´Ö´ĞĞSQLÓï¾ä
+	// // statementç”¨æ¥æ‰§è¡ŒSQLè¯­å¥
 	// Statement statement = conn.createStatement();
-	// // selectÓï¾ä
+	// // selectè¯­å¥
 	// String sql =
 	// "select id,mail_user,mail_value,mail_number from mail_db where mail_user='"
 	// + mailUser
 	// + "' and mail_value='2' and mail_number='" + mailNumber + "'";
 	// ResultSet rs = statement.executeQuery(sql);
 	//
-	// // Êä³östudentµÄËùÓĞĞÅÏ¢
+	// // è¾“å‡ºstudentçš„æ‰€æœ‰ä¿¡æ¯
 	// while (rs.next()) {
 	// state = (rs.getString("mail_user") + "\t" + rs.getString("mail_value") +
 	// "\t"
@@ -1191,11 +1191,11 @@ private String translateMailDetailedDate(String str){
 	// }
 
 	/**
-	 * Í¨ÖªUIÏß³Ì£¬¿ÉÒÔ´¦ÀíÓÃ»§²Ù×÷Ö¸ÁîÁË
+	 * é€šçŸ¥UIçº¿ç¨‹ï¼Œå¯ä»¥å¤„ç†ç”¨æˆ·æ“ä½œæŒ‡ä»¤äº†
 	 */
 	public void entryMainMenuInputMode() {
 		synchronized (lock) {
-			lock.notify();// »½ĞÑÄ³Ò»¸öÏß³Ì
+			lock.notify();// å”¤é†’æŸä¸€ä¸ªçº¿ç¨‹
 		}
 	}
 

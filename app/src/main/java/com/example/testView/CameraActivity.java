@@ -46,10 +46,12 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_layout);
 
+        String name = DateFormat.format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA))+".jpg";
         // 获取SD卡路径
         mFilePath = Environment.getExternalStorageDirectory().getPath();
         // 文件名
-        mFilePath = mFilePath + "/" + "photo.png";
+        mFilePath = mFilePath + "/Hmail/" + name;
+        Log.w("拍照文件路径",mFilePath+"");
         button = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
         view1 = (ImageView) findViewById(R.id.imageView1);

@@ -21,19 +21,19 @@ public class LoadingActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// È¥µô±êÌâÀ¸
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// å»æ‰æ ‡é¢˜æ 
 		setContentView(R.layout.activity_loading);
-		addLoading(R.id.image_loading);// ¼ÓÔØ½çÃæ½¥Èë
+		addLoading(R.id.image_loading);// åŠ è½½ç•Œé¢æ¸å…¥
 		gotoLogin(LoadingActivity.this);
 		
 	}
 	
-	public void addLoading(int loadingId) {// ¼ÓÔØ½çÃæÏÔÊ¾
+	public void addLoading(int loadingId) {// åŠ è½½ç•Œé¢æ˜¾ç¤º
 		ImageView loading = (ImageView) findViewById(loadingId);
 		loadingFade(loading);
 	}
 
-	public void loadingFade(ImageView view) {// ½¥Èë¶¯»­
+	public void loadingFade(ImageView view) {// æ¸å…¥åŠ¨ç”»
 		Animation fade_in = AnimationUtils.loadAnimation(LoadingActivity.this,
 				R.animator.fade_in);
 		view.setAnimation(fade_in);
@@ -49,7 +49,7 @@ public class LoadingActivity extends Activity {
 		  TimerTask task = new TimerTask() {
 		   @Override
 		   public void run() {
-		    startActivity(i); //Ö´ĞĞ
+		    startActivity(i); //æ‰§è¡Œ
 		    finish();
 		   }
 		  };

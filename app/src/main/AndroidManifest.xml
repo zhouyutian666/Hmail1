@@ -59,6 +59,10 @@
             android:name="com.example.testView.CameraActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.example.SQLite.SQLiteActivity"
+            android:label="@string/app_name" >
+        </activity>
 
     </application>
 
