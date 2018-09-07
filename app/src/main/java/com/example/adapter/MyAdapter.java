@@ -20,12 +20,12 @@ public class MyAdapter extends BaseAdapter {
 	private Context mContext;
 
 	/**
-	 * ¹¹Ôìº¯Êı
+	 * æ„é€ å‡½æ•°
 	 * 
 	 * @param datas
-	 *            ĞèÒª°ó¶¨µ½viewµÄÊı¾İ
+	 *            éœ€è¦ç»‘å®šåˆ°viewçš„æ•°æ®
 	 * @param mContext
-	 *            ´«ÈëÉÏÏÂÎÄ
+	 *            ä¼ å…¥ä¸Šä¸‹æ–‡
 	 */
 	public MyAdapter(List<Map<String, Object>> datas, Context mContext) {
 		this.datas = datas;
@@ -55,12 +55,12 @@ public class MyAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		final ViewHolder holder;
 		if (convertView == null) {
-			// Ê¹ÓÃ×Ô¶¨ÒåµÄlist_items×÷ÎªLayout
+			// ä½¿ç”¨è‡ªå®šä¹‰çš„list_itemsä½œä¸ºLayout
 			convertView = LayoutInflater.from(mContext).inflate(
 					R.layout.listview_item, null);
-			// ¼õÉÙfindViewµÄ´ÎÊı
+			// å‡å°‘findViewçš„æ¬¡æ•°
 			holder = new ViewHolder();
-			// ³õÊ¼»¯²¼¾ÖÖĞµÄÔªËØ
+			// åˆå§‹åŒ–å¸ƒå±€ä¸­çš„å…ƒç´ 
 			holder.stateImageView = (ImageView) convertView
 					.findViewById(R.id.mailImage_weidu);
 			holder.fuJianImageView = (ImageView) convertView
@@ -83,13 +83,13 @@ public class MyAdapter extends BaseAdapter {
 				.toString());
 		holder.titleTextView.setText(map.get("mailtitle")
 				.toString());
-		if (map.get("mailexistfujian") == null) {// ÓĞÎŞ¸½¼ş
+		if (map.get("mailexistfujian") == null) {// æœ‰æ— é™„ä»¶
 			holder.fuJianImageView.setVisibility(View.GONE);
 		}else {
 			holder.fuJianImageView.setVisibility(View.VISIBLE);
 		}
-		// ´Ó´«ÈëµÄÊı¾İÖĞÌáÈ¡Êı¾İ²¢°ó¶¨µ½Ö¸¶¨µÄviewÖĞ
-		if (map.get("mailstate") == "Î´¶Á") {// ÓÊ¼şÔÄ¶Á×´Ì¬
+		// ä»ä¼ å…¥çš„æ•°æ®ä¸­æå–æ•°æ®å¹¶ç»‘å®šåˆ°æŒ‡å®šçš„viewä¸­
+		if (map.get("mailstate") == "æœªè¯»") {// é‚®ä»¶é˜…è¯»çŠ¶æ€
 			holder.stateImageView.setBackgroundResource(R.drawable.wd);
 			holder.fuJianImageView.setBackgroundResource(R.drawable.fj);
 			holder.fromTextView.setTextColor(Color.parseColor("#000000"));

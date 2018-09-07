@@ -19,17 +19,17 @@ public class ContentActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// È¥µô±êÌâÀ¸
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// å»æ‰æ ‡é¢˜æ 
 		setContentView(R.layout.activity_content);
 		this.mailclient = ((MyApp)this.getApplication()).mailClient;
 		receive();
 	}
 
 	public void receive() {
-		Intent intent = getIntent();// µÃµ½ÉÏÒ»¸öÎÄ¼ş´«ÈëµÄIDºÅ
+		Intent intent = getIntent();// å¾—åˆ°ä¸Šä¸€ä¸ªæ–‡ä»¶ä¼ å…¥çš„IDå·
 		Bundle i = intent.getExtras();
-	    mailId = i.getInt("ID");// ½«µÃµ½µÄIDºÅ´«µİ¸ø±äÁ¿num
-		mailId = mailId + 1;// position´Ó0¿ªÊ¼£¬ËùÒÔĞèÒª +1
+	    mailId = i.getInt("ID");// å°†å¾—åˆ°çš„IDå·ä¼ é€’ç»™å˜é‡num
+		mailId = mailId + 1;// positionä»0å¼€å§‹ï¼Œæ‰€ä»¥éœ€è¦ +1
 		String mailId_string = Integer.toString(mailId);
 
 		title = (TextView) findViewById(R.id.contentActivity_title);
@@ -37,20 +37,20 @@ public class ContentActivity extends Activity {
 		TextView content = (TextView) findViewById(R.id.contentActivity_content);
 		TextView downloadFileName = (TextView) findViewById(R.id.contentActivity_downloadFileName);
 
-		TextView contentActivity_xq = (TextView) findViewById(R.id.contentActivity_from_xq);// ÏêÇé°´Å¥½çÃæ
+		TextView contentActivity_xq = (TextView) findViewById(R.id.contentActivity_from_xq);// è¯¦æƒ…æŒ‰é’®ç•Œé¢
 		TextView from_xq = (TextView) findViewById(R.id.contentActivity_from_xq);
 		ImageView downloadSmallImg_xq = (ImageView) findViewById(R.id.contentActiity_downloadSmallImg_xq);
 		TextView downloadNumber_xq = (TextView) findViewById(R.id.contentActivity_downloadNumber_xq);
 
 		TextView contentActivity_yc = (TextView) findViewById(R.id.contentActivity_yc);
-		TextView fajianren_yc = (TextView) findViewById(R.id.contentActivity_fajianren_yc);// Òş²Ø°´Å¥½çÃæ
+		TextView fajianren_yc = (TextView) findViewById(R.id.contentActivity_fajianren_yc);// éšè—æŒ‰é’®ç•Œé¢
 		TextView from_yc = (TextView) findViewById(R.id.contentActivity_from_yc);
 		TextView shoujianren_yc = (TextView) findViewById(R.id.contentActivity_shoujianren_yc);
 		TextView to_yc = (TextView) findViewById(R.id.contentActivity_to_yc);
 		title.setText(mailclient.mailTitleArray[mailId]);
 		date.setText(mailclient.mailDetailedDateArray[mailId]);
 		content.setText(mailclient.mailContentArray[mailId]);
-		downloadFileName.setText(mailclient.mailFuJianNameArray[mailId][1]);// Ö»ÏÔÊ¾µÚÒ»¸ö¸½¼şÃû³Æ
+		downloadFileName.setText(mailclient.mailFuJianNameArray[mailId][1]);// åªæ˜¾ç¤ºç¬¬ä¸€ä¸ªé™„ä»¶åç§°
 
 		from_xq.setText(mailclient.mailFromArray[mailId]);
 		downloadNumber_xq.setText(mailclient.mailFuJianNumArray[mailId]);
@@ -62,13 +62,13 @@ public class ContentActivity extends Activity {
 	}
 
 	public void onClick(View view) {
-		TextView contentActivity_xq = (TextView) findViewById(R.id.contentActivity_xq);// ÏêÇé°´Å¥½çÃæ
+		TextView contentActivity_xq = (TextView) findViewById(R.id.contentActivity_xq);// è¯¦æƒ…æŒ‰é’®ç•Œé¢
 		TextView from_xq = (TextView) findViewById(R.id.contentActivity_from_xq);
 		ImageView downloadSmallImg_xq = (ImageView) findViewById(R.id.contentActiity_downloadSmallImg_xq);
 		TextView downloadNumber_xq = (TextView) findViewById(R.id.contentActivity_downloadNumber_xq);
 
 		TextView contentActivity_yc = (TextView) findViewById(R.id.contentActivity_yc);
-		TextView fajianren_yc = (TextView) findViewById(R.id.contentActivity_fajianren_yc);// Òş²Ø°´Å¥½çÃæ
+		TextView fajianren_yc = (TextView) findViewById(R.id.contentActivity_fajianren_yc);// éšè—æŒ‰é’®ç•Œé¢
 		TextView from_yc = (TextView) findViewById(R.id.contentActivity_from_yc);
 		TextView shoujianren_yc = (TextView) findViewById(R.id.contentActivity_shoujianren_yc);
 		TextView to_yc = (TextView) findViewById(R.id.contentActivity_to_yc);
@@ -79,7 +79,7 @@ public class ContentActivity extends Activity {
 			finish();
 			break;
 		case R.id.next_mail:
-//			Toast.makeText(this, "¾¡ÇëÆÚ´ı", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, "å°½è¯·æœŸå¾…", Toast.LENGTH_SHORT).show();
 //			System.out.println("mailId:"+ mailId +"\n" +"num2:" + mailclient.num2);
 			if(mailId < mailclient.num2){
 				showNextOrLastLoading();
@@ -87,66 +87,66 @@ public class ContentActivity extends Activity {
 				ListActivity.positionID++;
 				nextOrLastMail( mailId);
 			}else{
-				Toast.makeText(this, "ÕâÊÇ×îĞÂÒ»·âÓÊ¼ş£¡", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "è¿™æ˜¯æœ€æ–°ä¸€å°é‚®ä»¶ï¼", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case R.id.last_mail:
-//			Toast.makeText(this, "¾¡ÇëÆÚ´ı", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, "å°½è¯·æœŸå¾…", Toast.LENGTH_SHORT).show();
 			if(mailId > 1){
 				showNextOrLastLoading();
 				mailId--;
 				ListActivity.positionID--;
 				nextOrLastMail( mailId);
 			}else{
-				Toast.makeText(this, "ÕâÊÇ×îĞÂÒ»·âÓÊ¼ş£¡", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "è¿™æ˜¯æœ€æ–°ä¸€å°é‚®ä»¶ï¼", Toast.LENGTH_SHORT).show();
 			}
 			break;
-		case R.id.contentActivity_xq:// µã»÷ÏêÇé
-			// Toast.makeText(this, "¾¡ÇëÆÚ´ı", Toast.LENGTH_SHORT).show();
+		case R.id.contentActivity_xq:// ç‚¹å‡»è¯¦æƒ…
+			// Toast.makeText(this, "å°½è¯·æœŸå¾…", Toast.LENGTH_SHORT).show();
 			contentActivity_xq.setVisibility(View.GONE);
 			from_xq.setVisibility(View.GONE);
 			downloadSmallImg_xq.setVisibility(View.GONE);
 			downloadNumber_xq.setVisibility(View.GONE);
 
 			contentActivity_yc.setVisibility(View.VISIBLE);
-			fajianren_yc.setVisibility(View.VISIBLE);// Òş²Ø°´Å¥½çÃæ
+			fajianren_yc.setVisibility(View.VISIBLE);// éšè—æŒ‰é’®ç•Œé¢
 			from_yc.setVisibility(View.VISIBLE);
 			shoujianren_yc.setVisibility(View.VISIBLE);
 			to_yc.setVisibility(View.VISIBLE);
 			break;
-		case R.id.contentActivity_yc:// µã»÷Òş²Ø
-			// Toast.makeText(this, "¾¡ÇëÆÚ´ı", Toast.LENGTH_SHORT).show();
+		case R.id.contentActivity_yc:// ç‚¹å‡»éšè—
+			// Toast.makeText(this, "å°½è¯·æœŸå¾…", Toast.LENGTH_SHORT).show();
 			contentActivity_xq.setVisibility(View.VISIBLE);
 			from_xq.setVisibility(View.VISIBLE);
 			downloadSmallImg_xq.setVisibility(View.VISIBLE);
 			downloadNumber_xq.setVisibility(View.VISIBLE);
 
 			contentActivity_yc.setVisibility(View.GONE);
-			fajianren_yc.setVisibility(View.GONE);// Òş²Ø°´Å¥½çÃæ
+			fajianren_yc.setVisibility(View.GONE);// éšè—æŒ‰é’®ç•Œé¢
 			from_yc.setVisibility(View.GONE);
 			shoujianren_yc.setVisibility(View.GONE);
 			to_yc.setVisibility(View.GONE);
 			break;
-		case R.id.contentActivity_downloadBut:// µã»÷ÏÂÔØ
-			// Toast.makeText(this, "¾¡ÇëÆÚ´ı", Toast.LENGTH_SHORT).show();
+		case R.id.contentActivity_downloadBut:// ç‚¹å‡»ä¸‹è½½
+			// Toast.makeText(this, "å°½è¯·æœŸå¾…", Toast.LENGTH_SHORT).show();
 			if (fujianNumber != null) {
 				mailclient.setOrder("3");
 				do {
 					if (toast == 1) {
 						Toast.makeText(
 								this,
-								"¸½¼şÏÂÔØÒÑÍê³É£¡\nÎÄ¼şÄ¿Â¼£º\n/sdcard/MailBeta_zyt/DownLoad",
+								"é™„ä»¶ä¸‹è½½å·²å®Œæˆï¼\næ–‡ä»¶ç›®å½•ï¼š\n/sdcard/MailBeta_zyt/DownLoad",
 								Toast.LENGTH_LONG).show();
 					}
 				} while (toast == 0);
 			} else {
-				Toast.makeText(this, "Ã»ÓĞ¸½¼ş£¡", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "æ²¡æœ‰é™„ä»¶ï¼", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
 	}
 	/**
-	 * Ïò×ÓÏß³Ì´«µİÉÏÒ»·â»òÏÂÒ»·âÓÊ¼şĞòºÅ
+	 * å‘å­çº¿ç¨‹ä¼ é€’ä¸Šä¸€å°æˆ–ä¸‹ä¸€å°é‚®ä»¶åºå·
 	 * @param id
 	 */
 	public void nextOrLastMail( int id){
@@ -159,12 +159,12 @@ public class ContentActivity extends Activity {
 	static ProgressDialog pd_nextOrlast;
 	static int showNOLLoading = 0;
 	/**
-	 * ÉÏÒ»·âºÍÏÂÒ»·âloading
+	 * ä¸Šä¸€å°å’Œä¸‹ä¸€å°loading
 	 */
 	public void showNextOrLastLoading() {
 		pd_nextOrlast = new ProgressDialog(ContentActivity.this);
-		pd_nextOrlast.setTitle("ÓÊ¼şÏêÇé");
-		pd_nextOrlast.setMessage("ÕıÔÚ¼ÓÔØ...");
+		pd_nextOrlast.setTitle("é‚®ä»¶è¯¦æƒ…");
+		pd_nextOrlast.setMessage("æ­£åœ¨åŠ è½½...");
 		pd_nextOrlast.setCancelable(true);
 		pd_nextOrlast.show();
 		showNOLLoading = 1;

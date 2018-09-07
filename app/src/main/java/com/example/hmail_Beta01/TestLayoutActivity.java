@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -12,13 +13,19 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -35,6 +42,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
@@ -43,414 +51,652 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.SQLite.SQLiteActivity;
 import com.example.testView.CameraActivity;
 import com.example.testView.MyAsyncTask;
 import com.example.testView.myImageTestActivity;
 import com.example.testView.myViewActivity;
+import com.example.widegt.GoTopScrollView;
 import com.example.widegt.RoundImageView;
 
-public class TestLayoutActivity extends Activity implements OnClickListener {
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
 
-	SeekBar sb_normal;
-	TextView txt_cur, txttitle,tv_camera;
-	Button btn_toast;
-    private ProgressBar pgbar;  
-	
-	private NotificationManager mNManager;
-	private Notification notify1;
-	Bitmap LargeBitmap = null;
-	private static final int NOTIFYID_1 = 1;
-	private Button btn_show_normal;
-	private Button btn_close_normal;
-	private Button btn_show, btnupdate;
+public class TestLayoutActivity extends Activity implements OnClickListener,
+        SensorEventListener {
 
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// È¥µô±êÌâÀ¸
-		setContentView(R.layout.test_layout);
+    SeekBar sb_normal;
+    TextView txt_cur, txttitle, tv_camera, tv_ip, tv_sensor_show, tv_value1, tv_value2,
+            tv_value3;
+    Button btn_toast;
+    private ProgressBar pgbar;
 
-		initView();
-		initTextView();
-		initImageView();
-		initSeekBar();
-		initRatingBar();
-		initToast();
-		initNotification();
-		initPopupWindow();
-		initAsyncTask();
-	}
+    private NotificationManager mNManager;
+    private Notification notify1;
+    Bitmap LargeBitmap = null;
+    private static final int NOTIFYID_1 = 1;
+    private Button btn_show_normal;
+    private Button btn_close_normal;
+    private Button btn_show, btnupdate, btn_sqlite;
+    private GoTopScrollView sv_home;
+    private ImageView iv_zd;
 
-	private void initView(){
-		Button tomyview = (Button)findViewById(R.id.btn_tomyview);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);// å»æ‰æ ‡é¢˜æ 
+        setContentView(R.layout.test_layout);
 
-		Button btn_tomyimagetest = (Button)findViewById(R.id.btn_tomyimagetest);
-		
-		tomyview.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent i =new Intent();
-				i.setClass(TestLayoutActivity.this, myViewActivity.class);
-				startActivity(i);
-			}
-		});
-		btn_tomyimagetest.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent i =new Intent();
-				i.setClass(TestLayoutActivity.this, myImageTestActivity.class);
-				startActivity(i);
-			}
-		});
+        initView();
+        initTextView();
+        initImageView();
+        initSeekBar();
+        initRatingBar();
+        initToast();
+        initNotification();
+        initPopupWindow();
+        initAsyncTask();
+        initSQLite();
+        initIp();
+        initSensor();
+        initEdit();
 
-		TextView tv_camera = (TextView) findViewById(R.id.tv_camera);
-		tv_camera.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent();
-				i.setClass(TestLayoutActivity.this,CameraActivity.class);
-				startActivity(i);
-			}
-		});
 
-	}
-	
-	// ¶¨ÒåÒ»¸öµã»÷Ã¿¸ö²¿·ÖÎÄ×ÖµÄ´¦Àí·½·¨
-	private SpannableStringBuilder addClickPart(String str) {
-		// ÔŞµÄÍ¼±ê£¬ÕâÀïÃ»ÓĞËØ²Ä£¬¾ÍÕÒ¸öĞ¦Á³´úÌæÏÂ~
-		ImageSpan imgspan = new ImageSpan(TestLayoutActivity.this,
-				R.drawable.yhm);
-		SpannableString spanStr = new SpannableString("p.");
-		spanStr.setSpan(imgspan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        // æ¯”å¦‚è¿™é‡Œåšä¸€ä¸ªç®€å•çš„åˆ¤æ–­ï¼Œå½“é¡µé¢å‘ç”Ÿæ»šåŠ¨ï¼Œæ˜¾ç¤ºé‚£ä¸ªButton
+        sv_home.setImgeViewOnClickGoToFirst(iv_zd);
+    }
 
-		// ´´½¨Ò»¸öSpannableStringBuilder¶ÔÏó£¬Á¬½Ó¶à¸ö×Ö·û´®
-		SpannableStringBuilder ssb = new SpannableStringBuilder(spanStr);
-		ssb.append(str);
-		String[] likeUsers = str.split("£¬");
-		if (likeUsers.length > 0) {
-			for (int i = 0; i < likeUsers.length; i++) {
-				final String name = likeUsers[i];
-				final int start = str.indexOf(name) + spanStr.length();
-				ssb.setSpan(new ClickableSpan() {
-					@Override
-					public void onClick(View widget) {
-						Toast.makeText(TestLayoutActivity.this, name,
-								Toast.LENGTH_SHORT).show();
-					}
+    private void initView() {
+        tv_ip = (TextView) findViewById(R.id.tv_ip);
+        Button tomyview = (Button) findViewById(R.id.btn_tomyview);
+        sv_home = (GoTopScrollView) findViewById(R.id.sv_home);
+        Button btn_tomyimagetest = (Button) findViewById(R.id.btn_tomyimagetest);
+        iv_zd = (ImageView) findViewById(R.id.iv_zd);
 
-					@Override
-					public void updateDrawState(TextPaint ds) {
-						super.updateDrawState(ds);
-						// É¾³ıÏÂ»®Ïß£¬ÉèÖÃ×ÖÌåÑÕÉ«ÎªÀ¶É«
-						ds.setColor(Color.BLUE);
-						ds.setUnderlineText(false);
-					}
-				}, start, start + name.length(), 0);
-			}
-		}
-		return ssb.append("µÈ" + likeUsers.length + "¸öÈË¾õµÃºÜÔŞ");
-	}
+        iv_zd.setOnClickListener(this);
 
-	private void initTextView() {
-		TextView txt_1 = (TextView) findViewById(R.id.txt_1);
-		String s1 = "<font color='red'><b>°Ù¶ÈÒ»ÏÂ£¬Äã¾ÍÖªµÀ~£º</b></font><br>";
-		s1 += "<a href = 'http://www.baidu.com'>°Ù¶È</a>";
-		txt_1.setText(Html.fromHtml(s1));
-		txt_1.setMovementMethod(LinkMovementMethod.getInstance());
+        tomyview.setOnClickListener(new OnClickListener() {
 
-		TextView txt_2 = (TextView) findViewById(R.id.txt_2);
-		SpannableString span = new SpannableString("ºìÉ«´òµç»°Ğ±ÌåÉ¾³ıÏßÂÌÉ«ÏÂ»®ÏßÍ¼Æ¬:.");
-		// 1.ÉèÖÃ±³¾°É«,setSpanÊ±ĞèÒªÖ¸¶¨µÄflag,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE(Ç°ºó¶¼²»°üÀ¨)
-		span.setSpan(new ForegroundColorSpan(Color.RED), 0, 2,
-				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		// 2.ÓÃ³¬Á´½Ó±ê¼ÇÎÄ±¾
-		span.setSpan(new URLSpan("tel:133****2537"), 2, 5,
-				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		// 3.ÓÃÑùÊ½±ê¼ÇÎÄ±¾£¨Ğ±Ìå£©
-		span.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 5, 7,
-				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		// 4.ÓÃÉ¾³ıÏß±ê¼ÇÎÄ±¾
-		span.setSpan(new StrikethroughSpan(), 7, 10,
-				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		// 5.ÓÃÏÂ»®Ïß±ê¼ÇÎÄ±¾
-		span.setSpan(new UnderlineSpan(), 10, 16,
-				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		// 6.ÓÃÑÕÉ«±ê¼Ç
-		span.setSpan(new ForegroundColorSpan(Color.GREEN), 10, 13,
-				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		// 7.//»ñÈ¡Drawable×ÊÔ´
-		Drawable d = getResources().getDrawable(R.drawable.wd);
-		d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-		// 8.´´½¨ImageSpan,È»ºóÓÃImageSpanÀ´Ìæ»»ÎÄ±¾
-		ImageSpan imgspan = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
-		span.setSpan(imgspan, 18, 19, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-		txt_2.setText(span);
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent i = new Intent();
+                i.setClass(TestLayoutActivity.this, myViewActivity.class);
+                startActivity(i);
+            }
+        });
+        btn_tomyimagetest.setOnClickListener(new OnClickListener() {
 
-		TextView txt_3 = (TextView) findViewById(R.id.txt_3);
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < 20; i++) {
-			sb.append("ºÃÓÑ" + i + "£¬");
-		}
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent i = new Intent();
+                i.setClass(TestLayoutActivity.this, myImageTestActivity.class);
+                startActivity(i);
+            }
+        });
 
-		String likeUsers = sb.substring(0, sb.lastIndexOf("£¬")).toString();
-		txt_3.setMovementMethod(LinkMovementMethod.getInstance());
-		txt_3.setText(addClickPart(likeUsers), TextView.BufferType.SPANNABLE);
-		
-		// Configuration
-		TextView tv_configuration = (TextView) findViewById(R.id.tv_configuration);
-		 StringBuffer status = new StringBuffer();
-	        //¢Ù»ñÈ¡ÏµÍ³µÄConfiguration¶ÔÏó
-	        Configuration cfg = getResources().getConfiguration();
-	        //¢ÚÏë²éÊ²Ã´²éÊ²Ã´
-	        status.append("densityDpi:" + cfg.densityDpi + "\n");
-	        status.append("fontScale:" + cfg.fontScale + "\n");
-	        status.append("hardKeyboardHidden:" + cfg.hardKeyboardHidden + "\n");
-	        status.append("keyboard:" + cfg.keyboard + "\n");
-	        status.append("keyboardHidden:" + cfg.keyboardHidden + "\n");
-	        status.append("locale:" + cfg.locale + "\n");
-	        status.append("mcc:" + cfg.mcc + "\n");
-	        status.append("mnc:" + cfg.mnc + "\n");
-	        status.append("navigation:" + cfg.navigation + "\n");
-	        status.append("navigationHidden:" + cfg.navigationHidden + "\n");
-	        status.append("orientation:" + cfg.orientation + "\n");
-	        status.append("screenHeightDp:" + cfg.screenHeightDp + "\n");
-	        status.append("screenWidthDp:" + cfg.screenWidthDp + "\n");
-	        status.append("screenLayout:" + cfg.screenLayout + "\n");
-	        status.append("smallestScreenWidthDp:" + cfg.densityDpi + "\n");
-	        status.append("touchscreen:" + cfg.densityDpi + "\n");
-	        status.append("uiMode:" + cfg.densityDpi + "\n");
-	        tv_configuration.setText(status.toString());
-	}
+        TextView tv_camera = (TextView) findViewById(R.id.tv_camera);
+        tv_camera.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(TestLayoutActivity.this, CameraActivity.class);
+                startActivity(i);
+            }
+        });
 
-	private void initImageView() {
+    }
 
-		RoundImageView img_round; // Ô²ĞÎimageview
-		img_round = (RoundImageView) findViewById(R.id.img_round);
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-				R.drawable.lj);
-		img_round.setBitmap(bitmap);
-	}
+    // å®šä¹‰ä¸€ä¸ªç‚¹å‡»æ¯ä¸ªéƒ¨åˆ†æ–‡å­—çš„å¤„ç†æ–¹æ³•
+    private SpannableStringBuilder addClickPart(String str) {
+        // èµçš„å›¾æ ‡ï¼Œè¿™é‡Œæ²¡æœ‰ç´ æï¼Œå°±æ‰¾ä¸ªç¬‘è„¸ä»£æ›¿ä¸‹~
+        ImageSpan imgspan = new ImageSpan(TestLayoutActivity.this,
+                R.drawable.yhm);
+        SpannableString spanStr = new SpannableString("p.");
+        spanStr.setSpan(imgspan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
 
-	/**
-	 * »¬¶¯Ìõ
-	 */
-	private void initSeekBar() {
-		bindViews();
-	}
+        // åˆ›å»ºä¸€ä¸ªSpannableStringBuilderå¯¹è±¡ï¼Œè¿æ¥å¤šä¸ªå­—ç¬¦ä¸²
+        SpannableStringBuilder ssb = new SpannableStringBuilder(spanStr);
+        ssb.append(str);
+        String[] likeUsers = str.split("ï¼Œ");
+        if (likeUsers.length > 0) {
+            for (int i = 0; i < likeUsers.length; i++) {
+                final String name = likeUsers[i];
+                final int start = str.indexOf(name) + spanStr.length();
+                ssb.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+                        Toast.makeText(TestLayoutActivity.this, name,
+                                Toast.LENGTH_SHORT).show();
+                    }
 
-	private void bindViews() {
-		sb_normal = (SeekBar) findViewById(R.id.seekbar_1);
-		txt_cur = (TextView) findViewById(R.id.tv_seekbar);
-		sb_normal
-				.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-					@Override
-					public void onProgressChanged(SeekBar seekBar,
-							int progress, boolean fromUser) {
-						txt_cur.setText("µ±Ç°½ø¶ÈÖµ:" + progress + "  / 100 ");
-					}
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        // åˆ é™¤ä¸‹åˆ’çº¿ï¼Œè®¾ç½®å­—ä½“é¢œè‰²ä¸ºè“è‰²
+                        ds.setColor(Color.BLUE);
+                        ds.setUnderlineText(false);
+                    }
+                }, start, start + name.length(), 0);
+            }
+        }
+        return ssb.append("ç­‰" + likeUsers.length + "ä¸ªäººè§‰å¾—å¾ˆèµ");
+    }
 
-					@Override
-					public void onStartTrackingTouch(SeekBar seekBar) {
-						Toast.makeText(TestLayoutActivity.this, "´¥ÅöSeekBar",
-								Toast.LENGTH_SHORT).show();
-					}
+    private void initTextView() {
+        TextView txt_1 = (TextView) findViewById(R.id.txt_1);
+        String s1 = "<font color='red'><b>ç™¾åº¦ä¸€ä¸‹ï¼Œä½ å°±çŸ¥é“~ï¼š</b></font><br>";
+        s1 += "<a href = 'http://www.baidu.com'>ç™¾åº¦</a>";
+        txt_1.setText(Html.fromHtml(s1));
+        txt_1.setMovementMethod(LinkMovementMethod.getInstance());
 
-					@Override
-					public void onStopTrackingTouch(SeekBar seekBar) {
-						Toast.makeText(TestLayoutActivity.this, "·Å¿ªSeekBar",
-								Toast.LENGTH_SHORT).show();
-					}
-				});
-	}
+        TextView txt_2 = (TextView) findViewById(R.id.txt_2);
+        SpannableString span = new SpannableString("çº¢è‰²æ‰“ç”µè¯æ–œä½“åˆ é™¤çº¿ç»¿è‰²ä¸‹åˆ’çº¿å›¾ç‰‡:.");
+        // 1.è®¾ç½®èƒŒæ™¯è‰²,setSpanæ—¶éœ€è¦æŒ‡å®šçš„flag,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE(å‰åéƒ½ä¸åŒ…æ‹¬)
+        span.setSpan(new ForegroundColorSpan(Color.RED), 0, 2,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // 2.ç”¨è¶…é“¾æ¥æ ‡è®°æ–‡æœ¬
+        span.setSpan(new URLSpan("tel:133****2537"), 2, 5,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // 3.ç”¨æ ·å¼æ ‡è®°æ–‡æœ¬ï¼ˆæ–œä½“ï¼‰
+        span.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 5, 7,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // 4.ç”¨åˆ é™¤çº¿æ ‡è®°æ–‡æœ¬
+        span.setSpan(new StrikethroughSpan(), 7, 10,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // 5.ç”¨ä¸‹åˆ’çº¿æ ‡è®°æ–‡æœ¬
+        span.setSpan(new UnderlineSpan(), 10, 16,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // 6.ç”¨é¢œè‰²æ ‡è®°
+        span.setSpan(new ForegroundColorSpan(Color.GREEN), 10, 13,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // 7.//è·å–Drawableèµ„æº
+        Drawable d = getResources().getDrawable(R.drawable.wd);
+        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+        // 8.åˆ›å»ºImageSpan,ç„¶åç”¨ImageSpanæ¥æ›¿æ¢æ–‡æœ¬
+        ImageSpan imgspan = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
+        span.setSpan(imgspan, 18, 19, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        txt_2.setText(span);
 
-	/**
-	 * Ğ¦Á³ÆÀ·Ö
-	 */
-	private void initRatingBar() {
-		RatingBar rb_normal;
-		rb_normal = (RatingBar) findViewById(R.id.rb_normal);
-		rb_normal
-				.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-					@Override
-					public void onRatingChanged(RatingBar ratingBar,
-							float rating, boolean fromUser) {
-						Toast.makeText(TestLayoutActivity.this,
-								"rating:" + String.valueOf(rating),
-								Toast.LENGTH_SHORT).show();
-					}
-				});
-	}
+        TextView txt_3 = (TextView) findViewById(R.id.txt_3);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 20; i++) {
+            sb.append("å¥½å‹" + i + "ï¼Œ");
+        }
 
-	/**
-	 * »¬¶¯Ìõ
-	 */
-	private void initToast() {
-		btn_toast = (Button) findViewById(R.id.btn_toast);
-		btn_toast.setOnClickListener(new OnClickListener() {
+        String likeUsers = sb.substring(0, sb.lastIndexOf("ï¼Œ")).toString();
+        txt_3.setMovementMethod(LinkMovementMethod.getInstance());
+        txt_3.setText(addClickPart(likeUsers), TextView.BufferType.SPANNABLE);
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				System.out.println("toast!!!");
-				midToast("Êı¾İÒì³££¬ÇëÉÔºóÖØÊÔ!", 1);
-			}
-		});
-	}
+        // Configuration
+        TextView tv_configuration = (TextView) findViewById(R.id.tv_configuration);
+        StringBuffer status = new StringBuffer();
+        //â‘ è·å–ç³»ç»Ÿçš„Configurationå¯¹è±¡
+        Configuration cfg = getResources().getConfiguration();
+        //â‘¡æƒ³æŸ¥ä»€ä¹ˆæŸ¥ä»€ä¹ˆ
+        status.append("densityDpi:" + cfg.densityDpi + "\n");
+        status.append("fontScale:" + cfg.fontScale + "\n");
+        status.append("hardKeyboardHidden:" + cfg.hardKeyboardHidden + "\n");
+        status.append("keyboard:" + cfg.keyboard + "\n");
+        status.append("keyboardHidden:" + cfg.keyboardHidden + "\n");
+        status.append("locale:" + cfg.locale + "\n");
+        status.append("mcc:" + cfg.mcc + "\n");
+        status.append("mnc:" + cfg.mnc + "\n");
+        status.append("navigation:" + cfg.navigation + "\n");
+        status.append("navigationHidden:" + cfg.navigationHidden + "\n");
+        status.append("orientation:" + cfg.orientation + "\n");
+        status.append("screenHeightDp:" + cfg.screenHeightDp + "\n");
+        status.append("screenWidthDp:" + cfg.screenWidthDp + "\n");
+        status.append("screenLayout:" + cfg.screenLayout + "\n");
+        status.append("smallestScreenWidthDp:" + cfg.densityDpi + "\n");
+        status.append("touchscreen:" + cfg.densityDpi + "\n");
+        status.append("uiMode:" + cfg.densityDpi + "\n");
+        tv_configuration.setText(status.toString());
+    }
 
-	/**
-	 * ×Ô¶¨Òåtoast
-	 * 
-	 * @param str
-	 * @param showTime
-	 */
-	private void midToast(String str, int showTime) {
-		LayoutInflater inflater = getLayoutInflater();
-		View view = inflater.inflate(R.layout.view_toast_custom,
-				(ViewGroup) findViewById(R.id.lly_toast));
-		ImageView img_logo = (ImageView) view.findViewById(R.id.img_logo);
-		TextView tv_msg = (TextView) view.findViewById(R.id.tv_msg);
+    private void initImageView() {
 
-		tv_msg.setText(str);
-		Toast toast = new Toast(TestLayoutActivity.this);
-		toast.setGravity(Gravity.CENTER, 0, 0); // Î»ÖÃ
-		toast.setDuration(Toast.LENGTH_SHORT);
-		// toast.setDuration(showTime); // ³ÖĞøÊ±¼ä
-		toast.setView(view);
-		toast.show();
-	}
+        RoundImageView img_round; // åœ†å½¢imageview
+        img_round = (RoundImageView) findViewById(R.id.img_round);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                R.drawable.lj);
+        img_round.setBitmap(bitmap);
+    }
 
-	/**
-	 * ÏûÏ¢Í¨Öª
-	 */
-	private void initNotification() {
-		LargeBitmap = BitmapFactory.decodeResource(getResources(),
-				R.drawable.huaji);
-		mNManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    /**
+     * æ»‘åŠ¨æ¡
+     */
+    private void initSeekBar() {
+        bindViews();
+    }
 
-		btn_show_normal = (Button) findViewById(R.id.btn_show_normal);
-		btn_close_normal = (Button) findViewById(R.id.btn_close_normal);
-		btn_show_normal.setOnClickListener(this);
-		btn_close_normal.setOnClickListener(this);
-	}
+    private void bindViews() {
+        sb_normal = (SeekBar) findViewById(R.id.seekbar_1);
+        txt_cur = (TextView) findViewById(R.id.tv_seekbar);
+        sb_normal
+                .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar,
+                                                  int progress, boolean fromUser) {
+                        txt_cur.setText("å½“å‰è¿›åº¦å€¼:" + progress + "  / 100 ");
+                    }
 
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.btn_show_normal:
-			// ¶¨ÒåÒ»¸öPendingIntentµã»÷NotificationºóÆô¶¯Ò»¸öActivity
-			Intent it = new Intent(TestLayoutActivity.this,
-					LoadingActivity.class);
-			PendingIntent pit = PendingIntent.getActivity(
-					TestLayoutActivity.this, 0, it, 0);
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        Toast.makeText(TestLayoutActivity.this, "è§¦ç¢°SeekBar",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
-			// ÉèÖÃÍ¼Æ¬,Í¨Öª±êÌâ,·¢ËÍÊ±¼ä,ÌáÊ¾·½Ê½µÈÊôĞÔ
-			Notification.Builder mBuilder = new Notification.Builder(this);
-			mBuilder.setContentTitle("Ò¶Á¼³½") // ±êÌâ
-					.setContentText("ÎÒÓĞÒ»°ÙÖÖ·½·¨ÈÃÄã´ô²»ÏÂÈ¥~") // ÄÚÈİ
-					.setSubText("¡ª¡ªÌø×ªµ½¼ÓÔØÒ³Ãæ") // ÄÚÈİÏÂÃæµÄÒ»Ğ¡¶ÎÎÄ×Ö
-					.setTicker("ÊÕµ½Ò¶Á¼³½·¢ËÍ¹ıÀ´µÄĞÅÏ¢~") // ÊÕµ½ĞÅÏ¢ºó×´Ì¬À¸ÏÔÊ¾µÄÎÄ×ÖĞÅÏ¢
-					.setWhen(System.currentTimeMillis()) // ÉèÖÃÍ¨ÖªÊ±¼ä
-					.setSmallIcon(R.drawable.ic_rating_on1) // ÉèÖÃĞ¡Í¼±ê
-					.setLargeIcon(LargeBitmap) // ÉèÖÃ´óÍ¼±ê
-					.setDefaults(Notification.DEFAULT_LIGHTS) // ÉèÖÃÄ¬ÈÏµÄÈıÉ«µÆÓëÕñ¶¯Æ÷
-																// Ä¬ÈÏÕğ¶¯|
-																// Notification.DEFAULT_VIBRATE
-					.setVibrate(new long[] { 0, 100, 100, 100, 300, 100 }) // ÑÓÊ±0msÏì100ms£¬ÔÙÑÓÊ±100msÏì100ms£¬ÑÓÊ±300msÏì100ms
-					// .setSound(Uri.parse("android.resource://" +
-					// getPackageName() + "/" + R.raw.biaobiao)) //ÉèÖÃ×Ô¶¨ÒåµÄÌáÊ¾Òô
-					.setAutoCancel(true) // ÉèÖÃµã»÷ºóÈ¡ÏûNotification
-					.setContentIntent(pit); // ÉèÖÃPendingIntent
-			notify1 = mBuilder.build();
-			mNManager.notify(NOTIFYID_1, notify1);
-			break;
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        Toast.makeText(TestLayoutActivity.this, "æ”¾å¼€SeekBar",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
-		case R.id.btn_close_normal:
-			// ³ıÁË¿ÉÒÔ¸ù¾İIDÀ´È¡ÏûNotificationÍâ,»¹¿ÉÒÔµ÷ÓÃcancelAll();¹Ø±Õ¸ÃÓ¦ÓÃ²úÉúµÄËùÓĞÍ¨Öª
-			mNManager.cancel(NOTIFYID_1); // È¡ÏûNotification
-			break;
+    /**
+     * ç¬‘è„¸è¯„åˆ†
+     */
+    private void initRatingBar() {
+        RatingBar rb_normal;
+        rb_normal = (RatingBar) findViewById(R.id.rb_normal);
+        rb_normal
+                .setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar,
+                                                float rating, boolean fromUser) {
+                        Toast.makeText(TestLayoutActivity.this,
+                                "rating:" + String.valueOf(rating),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
-		}
-	}
+    /**
+     * æ»‘åŠ¨æ¡
+     */
+    private void initToast() {
+        btn_toast = (Button) findViewById(R.id.btn_toast);
+        btn_toast.setOnClickListener(new OnClickListener() {
 
-	/**
-	 * ¸¡¶¯¿ò
-	 */
-	private void initPopupWindow() {
-		btn_show = (Button) findViewById(R.id.btn_show);
-		btn_show.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				initPopWindow(v);
-			}
-		});
-	}
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                System.out.println("toast!!!");
+                midToast("æ•°æ®å¼‚å¸¸ï¼Œè¯·ç¨åé‡è¯•!", 1);
+            }
+        });
+    }
 
-	private void initPopWindow(View v) {
-		System.out.println("½øÈëĞü¸¡¿ò");
-		View view = LayoutInflater.from(TestLayoutActivity.this).inflate(
-				R.layout.item_popip, null, false);
-		Button btn_xixi = (Button) view.findViewById(R.id.btn_xixi);
-		Button btn_hehe = (Button) view.findViewById(R.id.btn_hehe);
-		// 1.¹¹ÔìÒ»¸öPopupWindow£¬²ÎÊıÒÀ´ÎÊÇ¼ÓÔØµÄView£¬¿í¸ß
-		final PopupWindow popWindow = new PopupWindow(view,
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT, true);
+    /**
+     * è‡ªå®šä¹‰toast
+     *
+     * @param str
+     * @param showTime
+     */
+    private void midToast(String str, int showTime) {
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.view_toast_custom,
+                (ViewGroup) findViewById(R.id.lly_toast));
+        ImageView img_logo = (ImageView) view.findViewById(R.id.img_logo);
+        TextView tv_msg = (TextView) view.findViewById(R.id.tv_msg);
 
-		popWindow.setAnimationStyle(R.animator.anim_pop); // ÉèÖÃ¼ÓÔØ¶¯»­
+        tv_msg.setText(str);
+        Toast toast = new Toast(TestLayoutActivity.this);
+        toast.setGravity(Gravity.CENTER, 0, 0); // ä½ç½®
+        toast.setDuration(Toast.LENGTH_SHORT);
+        // toast.setDuration(showTime); // æŒç»­æ—¶é—´
+        toast.setView(view);
+        toast.show();
+    }
 
-		// ÕâĞ©ÎªÁËµã»÷·ÇPopupWindowÇøÓò£¬PopupWindow»áÏûÊ§µÄ£¬Èç¹ûÃ»ÓĞÏÂÃæµÄ
-		// ´úÂëµÄ»°£¬Äã»á·¢ÏÖ£¬µ±Äã°ÑPopupWindowÏÔÊ¾³öÀ´ÁË£¬ÎŞÂÛÄã°´¶àÉÙ´ÎºóÍË¼ü
-		// PopupWindow²¢²»»á¹Ø±Õ£¬¶øÇÒÍË²»³ö³ÌĞò£¬¼ÓÉÏÏÂÊö´úÂë¿ÉÒÔ½â¾öÕâ¸öÎÊÌâ
-		popWindow.setTouchable(true);
-		popWindow.setTouchInterceptor(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				return false;
-				// ÕâÀïÈç¹û·µ»ØtrueµÄ»°£¬touchÊÂ¼ş½«±»À¹½Ø
-				// À¹½Øºó PopupWindowµÄonTouchEvent²»±»µ÷ÓÃ£¬ÕâÑùµã»÷Íâ²¿ÇøÓòÎŞ·¨dismiss
-			}
-		});
-		popWindow.setBackgroundDrawable(new ColorDrawable(0x00000000)); 
-		// ÒªÎªpopWindowÉèÖÃÒ»¸ö±³¾°²ÅÓĞĞ§
+    /**
+     * æ¶ˆæ¯é€šçŸ¥
+     */
+    private void initNotification() {
+        LargeBitmap = BitmapFactory.decodeResource(getResources(),
+                R.drawable.huaji);
+        mNManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-		// ÉèÖÃpopupWindowÏÔÊ¾µÄÎ»ÖÃ£¬²ÎÊıÒÀ´ÎÊÇ²ÎÕÕView£¬xÖáµÄÆ«ÒÆÁ¿£¬yÖáµÄÆ«ÒÆÁ¿
-		popWindow.showAsDropDown(v, 50, -50);
+        btn_show_normal = (Button) findViewById(R.id.btn_show_normal);
+        btn_close_normal = (Button) findViewById(R.id.btn_close_normal);
+        btn_show_normal.setOnClickListener(this);
+        btn_close_normal.setOnClickListener(this);
+    }
 
-		// ÉèÖÃpopupWindowÀïµÄ°´Å¥µÄÊÂ¼ş
-		btn_xixi.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(TestLayoutActivity.this, "Äãµã»÷ÁËÌí¼Ó~",
-						Toast.LENGTH_SHORT).show();
-			}
-		});
-		btn_hehe.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(TestLayoutActivity.this, "Äãµã»÷ÁËÉ¾³ı~",
-						Toast.LENGTH_SHORT).show();
-				popWindow.dismiss();
-			}
-		});
-	}
-	
-	/**
-	 *  AsyncTask
-	 */
-	private void initAsyncTask() {
-		txttitle = (TextView)findViewById(R.id.txttitle);  
-        pgbar = (ProgressBar)findViewById(R.id.pgbar);  
-        btnupdate = (Button)findViewById(R.id.btnupdate);  
-        btnupdate.setOnClickListener(new View.OnClickListener() {  
-            @Override  
-            public void onClick(View v) {  
-                MyAsyncTask myTask = new MyAsyncTask(txttitle,pgbar);  
-                myTask.execute(1000);  
-            }  
-        });  
-	}
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch (v.getId()) {
+            case R.id.btn_show_normal:
+                // å®šä¹‰ä¸€ä¸ªPendingIntentç‚¹å‡»Notificationåå¯åŠ¨ä¸€ä¸ªActivity
+                Intent it = new Intent(TestLayoutActivity.this,
+                        LoadingActivity.class);
+                PendingIntent pit = PendingIntent.getActivity(
+                        TestLayoutActivity.this, 0, it, 0);
+
+                // è®¾ç½®å›¾ç‰‡,é€šçŸ¥æ ‡é¢˜,å‘é€æ—¶é—´,æç¤ºæ–¹å¼ç­‰å±æ€§
+                Notification.Builder mBuilder = new Notification.Builder(this);
+                mBuilder.setContentTitle("å¶è‰¯è¾°") // æ ‡é¢˜
+                        .setContentText("æˆ‘æœ‰ä¸€ç™¾ç§æ–¹æ³•è®©ä½ å‘†ä¸ä¸‹å»~") // å†…å®¹
+                        .setSubText("â€”â€”è·³è½¬åˆ°åŠ è½½é¡µé¢") // å†…å®¹ä¸‹é¢çš„ä¸€å°æ®µæ–‡å­—
+                        .setTicker("æ”¶åˆ°å¶è‰¯è¾°å‘é€è¿‡æ¥çš„ä¿¡æ¯~") // æ”¶åˆ°ä¿¡æ¯åçŠ¶æ€æ æ˜¾ç¤ºçš„æ–‡å­—ä¿¡æ¯
+                        .setWhen(System.currentTimeMillis()) // è®¾ç½®é€šçŸ¥æ—¶é—´
+                        .setSmallIcon(R.drawable.ic_rating_on1) // è®¾ç½®å°å›¾æ ‡
+                        .setLargeIcon(LargeBitmap) // è®¾ç½®å¤§å›¾æ ‡
+                        .setDefaults(Notification.DEFAULT_LIGHTS) // è®¾ç½®é»˜è®¤çš„ä¸‰è‰²ç¯ä¸æŒ¯åŠ¨å™¨
+                        // é»˜è®¤éœ‡åŠ¨|
+                        // Notification.DEFAULT_VIBRATE
+                        .setVibrate(new long[]{0, 100, 100, 100, 300, 100}) // å»¶æ—¶0mså“100msï¼Œå†å»¶æ—¶100mså“100msï¼Œå»¶æ—¶300mså“100ms
+                        // .setSound(Uri.parse("android.resource://" +
+                        // getPackageName() + "/" + R.raw.biaobiao)) //è®¾ç½®è‡ªå®šä¹‰çš„æç¤ºéŸ³
+                        .setAutoCancel(true) // è®¾ç½®ç‚¹å‡»åå–æ¶ˆNotification
+                        .setContentIntent(pit); // è®¾ç½®PendingIntent
+                notify1 = mBuilder.build();
+                mNManager.notify(NOTIFYID_1, notify1);
+                break;
+
+            case R.id.btn_close_normal:
+                // é™¤äº†å¯ä»¥æ ¹æ®IDæ¥å–æ¶ˆNotificationå¤–,è¿˜å¯ä»¥è°ƒç”¨cancelAll();å…³é—­è¯¥åº”ç”¨äº§ç”Ÿçš„æ‰€æœ‰é€šçŸ¥
+                mNManager.cancel(NOTIFYID_1); // å–æ¶ˆNotification
+                break;
+
+            case R.id.iv_zd:
+                sv_home.setScrollY(0);
+                iv_zd.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    /**
+     * æµ®åŠ¨æ¡†
+     */
+    private void initPopupWindow() {
+        btn_show = (Button) findViewById(R.id.btn_show);
+        btn_show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initPopWindow(v);
+            }
+        });
+    }
+
+    private void initPopWindow(View v) {
+        System.out.println("è¿›å…¥æ‚¬æµ®æ¡†");
+        View view = LayoutInflater.from(TestLayoutActivity.this).inflate(
+                R.layout.item_popip, null, false);
+        Button btn_xixi = (Button) view.findViewById(R.id.btn_xixi);
+        Button btn_hehe = (Button) view.findViewById(R.id.btn_hehe);
+        // 1.æ„é€ ä¸€ä¸ªPopupWindowï¼Œå‚æ•°ä¾æ¬¡æ˜¯åŠ è½½çš„Viewï¼Œå®½é«˜
+        final PopupWindow popWindow = new PopupWindow(view,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        popWindow.setAnimationStyle(R.animator.anim_pop); // è®¾ç½®åŠ è½½åŠ¨ç”»
+
+        // è¿™äº›ä¸ºäº†ç‚¹å‡»éPopupWindowåŒºåŸŸï¼ŒPopupWindowä¼šæ¶ˆå¤±çš„ï¼Œå¦‚æœæ²¡æœ‰ä¸‹é¢çš„
+        // ä»£ç çš„è¯ï¼Œä½ ä¼šå‘ç°ï¼Œå½“ä½ æŠŠPopupWindowæ˜¾ç¤ºå‡ºæ¥äº†ï¼Œæ— è®ºä½ æŒ‰å¤šå°‘æ¬¡åé€€é”®
+        // PopupWindowå¹¶ä¸ä¼šå…³é—­ï¼Œè€Œä¸”é€€ä¸å‡ºç¨‹åºï¼ŒåŠ ä¸Šä¸‹è¿°ä»£ç å¯ä»¥è§£å†³è¿™ä¸ªé—®é¢˜
+        popWindow.setTouchable(true);
+        popWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+                // è¿™é‡Œå¦‚æœè¿”å›trueçš„è¯ï¼Œtouchäº‹ä»¶å°†è¢«æ‹¦æˆª
+                // æ‹¦æˆªå PopupWindowçš„onTouchEventä¸è¢«è°ƒç”¨ï¼Œè¿™æ ·ç‚¹å‡»å¤–éƒ¨åŒºåŸŸæ— æ³•dismiss
+            }
+        });
+        popWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // è¦ä¸ºpopWindowè®¾ç½®ä¸€ä¸ªèƒŒæ™¯æ‰æœ‰æ•ˆ
+
+        // è®¾ç½®popupWindowæ˜¾ç¤ºçš„ä½ç½®ï¼Œå‚æ•°ä¾æ¬¡æ˜¯å‚ç…§Viewï¼Œxè½´çš„åç§»é‡ï¼Œyè½´çš„åç§»é‡
+        popWindow.showAsDropDown(v, 50, -50);
+
+        // è®¾ç½®popupWindowé‡Œçš„æŒ‰é’®çš„äº‹ä»¶
+        btn_xixi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(TestLayoutActivity.this, "ä½ ç‚¹å‡»äº†æ·»åŠ ~",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        btn_hehe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(TestLayoutActivity.this, "ä½ ç‚¹å‡»äº†åˆ é™¤~",
+                        Toast.LENGTH_SHORT).show();
+                popWindow.dismiss();
+            }
+        });
+    }
+
+    /**
+     * AsyncTask
+     */
+    private void initAsyncTask() {
+        txttitle = (TextView) findViewById(R.id.txttitle);
+        pgbar = (ProgressBar) findViewById(R.id.pgbar);
+        btnupdate = (Button) findViewById(R.id.btnupdate);
+        btnupdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyAsyncTask myTask = new MyAsyncTask(txttitle, pgbar);
+                myTask.execute(1000);
+            }
+        });
+    }
+
+    private void initSQLite() {
+        btn_sqlite = (Button) findViewById(R.id.btn_sqlite);
+        btn_sqlite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(TestLayoutActivity.this, SQLiteActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+
+    private void initIp() {
+        new Thread() {
+            @Override
+            public void run() {
+                // æŠŠç½‘ç»œè®¿é—®çš„ä»£ç æ”¾åœ¨è¿™é‡Œ
+                InetAddress address = null;
+
+                try {
+                    address = InetAddress.getLocalHost();
+                } catch (UnknownHostException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                System.out.println("æœ¬æœºåï¼š" + address.getHostName());
+                System.out.println("IPåœ°å€ï¼š" + address.getHostAddress());
+                byte[] bytes = address.getAddress();
+                System.out.println("å­—èŠ‚æ•°ç»„å½¢å¼çš„IPåœ°å€ï¼š" + Arrays.toString(bytes));
+                System.out.println("ç›´æ¥è¾“å‡ºInetAddresså¯¹è±¡ï¼š" + address);
+				tv_ip.setText("æœ¬æœºåï¼š" + address.getHostName() + "\r\n" + "IPåœ°å€ï¼š"
+						+ address.getHostAddress() + "\r\n" + "å­—èŠ‚æ•°ç»„å½¢å¼çš„IPåœ°å€ï¼š"
+						+ Arrays.toString(bytes) + "\r\n"
+						+ "ç›´æ¥è¾“å‡ºInetAddresså¯¹è±¡ï¼š" + address);
+            }
+        }.start();
+
+    }
+
+    private SensorManager sm;
+    private SensorManager sManager;
+    private Sensor mSensorOrientation;
+
+    /**
+     * ä¼ æ„Ÿå™¨
+     */
+    private void initSensor() {
+        TextView tv_sensor_show = (TextView) findViewById(R.id.tv_sensor_show);
+
+        sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        List<Sensor> allSensors = sm.getSensorList(Sensor.TYPE_ALL);
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("æ­¤æ‰‹æœºæœ‰" + allSensors.size() + "ä¸ªä¼ æ„Ÿå™¨ï¼Œåˆ†åˆ«æœ‰ï¼š\n\n");
+        for (Sensor s : allSensors) {
+            switch (s.getType()) {
+                case Sensor.TYPE_ACCELEROMETER:
+                    sb.append(s.getType() + " åŠ é€Ÿåº¦ä¼ æ„Ÿå™¨(Accelerometer sensor)" + "\n");
+                    break;
+                case Sensor.TYPE_GYROSCOPE:
+                    sb.append(s.getType() + " é™€èºä»ªä¼ æ„Ÿå™¨(Gyroscope sensor)" + "\n");
+                    break;
+                case Sensor.TYPE_LIGHT:
+                    sb.append(s.getType() + " å…‰çº¿ä¼ æ„Ÿå™¨(Light sensor)" + "\n");
+                    break;
+                case Sensor.TYPE_MAGNETIC_FIELD:
+                    sb.append(s.getType() + " ç£åœºä¼ æ„Ÿå™¨(Magnetic field sensor)" + "\n");
+                    break;
+                case Sensor.TYPE_ORIENTATION:
+                    sb.append(s.getType() + " æ–¹å‘ä¼ æ„Ÿå™¨(Orientation sensor)" + "\n");
+                    break;
+                case Sensor.TYPE_PRESSURE:
+                    sb.append(s.getType() + " æ°”å‹ä¼ æ„Ÿå™¨(Pressure sensor)" + "\n");
+                    break;
+                case Sensor.TYPE_PROXIMITY:
+                    sb.append(s.getType() + " è·ç¦»ä¼ æ„Ÿå™¨(Proximity sensor)" + "\n");
+                    break;
+                case Sensor.TYPE_TEMPERATURE:
+                    sb.append(s.getType() + " æ¸©åº¦ä¼ æ„Ÿå™¨(Temperature sensor)" + "\n");
+                    break;
+                default:
+                    sb.append(s.getType() + " å…¶ä»–ä¼ æ„Ÿå™¨" + "\n");
+                    break;
+            }
+            sb.append("è®¾å¤‡åç§°ï¼š" + s.getName() + "\n è®¾å¤‡ç‰ˆæœ¬ï¼š" + s.getVersion()
+                    + "\n ä¾›åº”å•†ï¼š" + s.getVendor() + "\n\n");
+        }
+        tv_sensor_show.setText(sb.toString());
+
+        // æ–¹å‘ä¼ æ„Ÿå™¨
+        tv_value1 = (TextView) findViewById(R.id.tv_value1);
+        tv_value2 = (TextView) findViewById(R.id.tv_value2);
+        tv_value3 = (TextView) findViewById(R.id.tv_value3);
+
+        sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mSensorOrientation = sManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+        sManager.registerListener(this, mSensorOrientation,
+                SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        tv_value1.setText("æ–¹ä½è§’ï¼š" + (float) (Math.round(event.values[0] * 100))
+                / 100);
+        tv_value2.setText("å€¾æ–œè§’ï¼š" + (float) (Math.round(event.values[1] * 100))
+                / 100);
+        tv_value3.setText("æ»šåŠ¨è§’ï¼š" + (float) (Math.round(event.values[2] * 100))
+                / 100);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // TODO Auto-generated method stub
+
+    }
+
+    private EditText et_cardNumber;
+    private EditText et_phoneNumber;
+
+    /**
+     * é“¶è¡Œå¡è¾“å…¥
+     */
+    private void initEdit() {
+
+        et_cardNumber = (EditText) findViewById(R.id.et_cardNumber);
+        et_cardNumber.addTextChangedListener(watcher);
+        et_phoneNumber = (EditText) findViewById(R.id.et_phoneNumber);
+        et_phoneNumber.addTextChangedListener(watcher_et_phoneNumber);
+    }
+
+    private TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String str = s.toString().trim().replace(" ", "");
+            String result = "";
+            if (str.length() >= 4) {
+                et_cardNumber.removeTextChangedListener(watcher);
+                for (int i = 0; i < str.length(); i++) {
+                    result += str.charAt(i);
+                    if ((i + 1) % 4 == 0) {
+                        result += " ";
+                    }
+                }
+                if (result.endsWith(" ")) {
+                    result = result.substring(0, result.length() - 1);
+                }
+                et_cardNumber.setText(result);
+                et_cardNumber.addTextChangedListener(watcher);
+                et_cardNumber.setSelection(et_cardNumber.getText().toString()
+                        .length());// ç„¦ç‚¹åˆ°è¾“å…¥æ¡†æœ€åä½ç½®
+            }
+        }
+    };
+
+    private TextWatcher watcher_et_phoneNumber = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String str = s.toString().trim().replace("-", "");
+            String result = "";
+            if (str.length() >= 3 && str.length() < 11) {
+                et_phoneNumber
+                        .removeTextChangedListener(watcher_et_phoneNumber);
+                for (int i = 0; i < str.length(); i++) {
+                    result += str.charAt(i);
+                    if (i == 2) {
+                        result += "-";
+                    }
+                    if (i == 6) {
+                        result += "-";
+                    }
+                }
+                if (result.endsWith("-")) {
+                    result = result.substring(0, result.length() - 1);
+                }
+                et_phoneNumber.setText(result);
+                et_phoneNumber.addTextChangedListener(watcher_et_phoneNumber);
+                et_phoneNumber.setSelection(et_phoneNumber.getText().toString()
+                        .length());// ç„¦ç‚¹åˆ°è¾“å…¥æ¡†æœ€åä½ç½®
+            } else if (str.length() == 11) {
+                et_cardNumber.requestFocus();//è®©et_cardNumberè·å–ç„¦ç‚¹
+                et_cardNumber.setSelection(et_cardNumber.getText().toString()
+                        .length());
+            }
+        }
+    };
 }

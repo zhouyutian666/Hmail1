@@ -4,208 +4,337 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <LinearLayout
+        <com.example.widegt.GoTopScrollView
+            android:id="@+id/sv_home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="---2.26----" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:text="www.baidu.com" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:autoLink="phone"
-                android:text="133****2537" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:autoLink="email"
-                android:text="zhou44*56@qq.com" />
-
-            <TextView
-                android:id="@+id/txt_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/txt_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/txt_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
-
-            <com.example.widegt.RoundImageView
-                android:id="@+id/img_round"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp" />
-
-            <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:textOff="关闭声音"
-                android:textOn="打开声音" />
-
-            <Switch
-                android:id="@+id/swh_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textOff="off"
-                android:textOn="On" />
-
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <SeekBar
-                android:id="@+id/seekbar_1"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tv_seekbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="---2.27----" />
-
-            <SeekBar
-                android:id="@+id/sb_normal"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="5.0dp"
-                android:minHeight="5.0dp"
-                android:progressDrawable="@drawable/sb_bar"
-                android:thumb="@drawable/sb_thumb" />
+                android:orientation="vertical" >
 
-            <RatingBar
-                android:id="@+id/rb_normal"
-                style="@style/roomRatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:numStars="10" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---2.26----" />
 
-            <AnalogClock
-                android:layout_width="100dp"
-                android:layout_height="100dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:text="www.baidu.com" />
 
-            <Button
-                android:id="@+id/btn_toast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="toast" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:autoLink="phone"
+                    android:text="13317322537" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="---2.28----" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:autoLink="email"
+                    android:text="zhou442919856@qq.com" />
 
-            <Button
-                android:id="@+id/btn_show"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="显示悬浮框" />
+                <TextView
+                    android:id="@+id/txt_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
 
-            <Button
-                android:id="@+id/btn_show_normal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="发起通知消息" />
+                <TextView
+                    android:id="@+id/txt_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
 
-            <Button
-                android:id="@+id/btn_close_normal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="取消通知消息" />
+                <TextView
+                    android:id="@+id/txt_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="---3.5----" />
+                <com.example.widegt.RoundImageView
+                    android:id="@+id/img_round"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp" />
 
-            <Button
-                android:id="@+id/btn_tomyview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="触点界面" />
+                <ToggleButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:textOff="关闭声音"
+                    android:textOn="打开声音" />
 
-            <Button
-                android:id="@+id/btn_tomyimagetest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="触点界面" />
+                <Switch
+                    android:id="@+id/swh_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textOff="off"
+                    android:textOn="On" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="---3.6----" />
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tv_configuration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <SeekBar
+                    android:id="@+id/seekbar_1"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/txttitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <!-- 设置一个进度条,并且设置为水平方向 -->
+                <TextView
+                    android:id="@+id/tv_seekbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <ProgressBar
-                android:id="@+id/pgbar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---2.27----" />
 
-            <Button
-                android:id="@+id/btnupdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="更新progressBar" />
+                <SeekBar
+                    android:id="@+id/sb_normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="5.0dp"
+                    android:minHeight="5.0dp"
+                    android:progressDrawable="@drawable/sb_bar"
+                    android:thumb="@drawable/sb_thumb" />
+
+                <RatingBar
+                    android:id="@+id/rb_normal"
+                    style="@style/roomRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:numStars="10" />
+
+                <AnalogClock
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
+
+                <Button
+                    android:id="@+id/btn_toast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="toast" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---2.28----" />
+
+                <Button
+                    android:id="@+id/btn_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="显示悬浮框" />
+
+                <Button
+                    android:id="@+id/btn_show_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发起通知消息" />
+
+                <Button
+                    android:id="@+id/btn_close_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="取消通知消息" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---3.5----" />
+
+                <Button
+                    android:id="@+id/btn_tomyview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="触点界面" />
+
+                <Button
+                    android:id="@+id/btn_tomyimagetest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="触点界面" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---3.6----" />
+
+                <TextView
+                    android:id="@+id/tv_configuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/txttitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <!-- 设置一个进度条,并且设置为水平方向 -->
+
+                <ProgressBar
+                    android:id="@+id/pgbar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/btnupdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="更新progressBar" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---5.3----" />
+
+                <Button
+                    android:id="@+id/btn_sqlite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SQLite模拟" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---5.7----" />
+
+                <TextView
+                    android:id="@+id/tv_ip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---5.14----" />
+
+                <TextView
+                    android:id="@+id/tv_sensor_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---5.15----" />
+
+                <TextView
+                    android:id="@+id/tv_value1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_value2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_value3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---5.16----" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"
+                        android:text="手机号："
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_phoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:inputType="number"
+                        android:maxLength="13"
+                        android:maxLines="1"
+                        android:paddingLeft="15dp"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"
+                        android:text="卡号："
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_cardNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:paddingLeft="15dp"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="---8.30----" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---8.30----" />
 
 
-            <TextView
-                android:id="@+id/tv_camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="调用系统相机拍照"
-                android:textSize="16sp"/>
-        </LinearLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/tv_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="调用系统相机拍照"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+        </com.example.widegt.GoTopScrollView>
+
+        <ImageView
+            android:id="@+id/iv_zd"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_zd"
+            android:visibility="gone" />
+    </FrameLayout>
 
 </LinearLayout>

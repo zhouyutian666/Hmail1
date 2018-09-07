@@ -35,7 +35,7 @@ public class ListActivity extends Activity {
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// È¥µô±êÌâÀ¸
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// å»æ‰æ ‡é¢˜æ 
 		setContentView(R.layout.activity_list);
 		createDownloadFile();
 		getMailList();
@@ -50,10 +50,10 @@ public class ListActivity extends Activity {
 			break;
 		case R.id.exit:
 			AlertDialog.Builder builder = new Builder(this);
-			builder.setIcon(R.drawable.ic_launcher);// ÉèÖÃÍ¼±ê
-			builder.setTitle("ÍË³ö");// ÉèÖÃ¶Ô»°¿òµÄ±êÌâ
-			builder.setMessage("ÄãÈ·¶¨ÒªÍË³öÂğ£¿");// ÉèÖÃ¶Ô»°¿òµÄÄÚÈİ
-			builder.setPositiveButton("È·¶¨", new OnClickListener() { // Õâ¸öÊÇÉèÖÃÈ·¶¨°´Å¥
+			builder.setIcon(R.drawable.ic_launcher);// è®¾ç½®å›¾æ ‡
+			builder.setTitle("é€€å‡º");// è®¾ç½®å¯¹è¯æ¡†çš„æ ‡é¢˜
+			builder.setMessage("ä½ ç¡®å®šè¦é€€å‡ºå—ï¼Ÿ");// è®¾ç½®å¯¹è¯æ¡†çš„å†…å®¹
+			builder.setPositiveButton("ç¡®å®š", new OnClickListener() { // è¿™ä¸ªæ˜¯è®¾ç½®ç¡®å®šæŒ‰é’®
 
 						@Override
 						public void onClick(DialogInterface arg0, int arg1) {
@@ -62,37 +62,37 @@ public class ListActivity extends Activity {
 
 						}
 					});
-			builder.setNegativeButton("È¡Ïû", new OnClickListener() { // È¡Ïû°´Å¥
+			builder.setNegativeButton("å–æ¶ˆ", new OnClickListener() { // å–æ¶ˆæŒ‰é’®
 
 						@Override
 						public void onClick(DialogInterface arg0, int arg1) {
 
 						}
 					});
-			builder.show(); // ±ØĞëshowÒ»ÏÂ²ÅÄÜ¿´µ½¶Ô»°¿ò£¬¸úToastÒ»ÑùµÄµÀÀí
+			builder.show(); // å¿…é¡»showä¸€ä¸‹æ‰èƒ½çœ‹åˆ°å¯¹è¯æ¡†ï¼Œè·ŸToastä¸€æ ·çš„é“ç†
 			break;
 		default:
 			break;
 		}
 	}
 /**
- * ĞÂ½¨ÏÂÔØÎÄ¼ş¼Ğ
+ * æ–°å»ºä¸‹è½½æ–‡ä»¶å¤¹
  */
 	public void createDownloadFile() {
 		File file = new File("/mnt/sdcard/MailBeta_zyt/DownLoad");
-		// ÅĞ¶ÏÎÄ¼ş¼ĞÊÇ·ñ´æÔÚ£¬Èç¹û²»´æÔÚ¾Í´´½¨£¬·ñÔò²»´´½¨
+		// åˆ¤æ–­æ–‡ä»¶å¤¹æ˜¯å¦å­˜åœ¨ï¼Œå¦‚æœä¸å­˜åœ¨å°±åˆ›å»ºï¼Œå¦åˆ™ä¸åˆ›å»º
 		if (!file.exists()) {
-			// Í¨¹ıfileµÄmkdirs()·½·¨´´½¨<span
+			// é€šè¿‡fileçš„mkdirs()æ–¹æ³•åˆ›å»º<span
 			file.mkdirs();
 		}
 	}
 /**
- * µÃµ½×ÓÏß³ÌÖĞÃ¿Ò»·âÓÊ¼şÊı¾İ
+ * å¾—åˆ°å­çº¿ç¨‹ä¸­æ¯ä¸€å°é‚®ä»¶æ•°æ®
  * @return
  */
 	public ArrayList<Map<String, Object>> getItem() {
 
-		System.out.println("¿ªÊ¼ÓÊ¼şÁĞ±í¸³Öµ£¡");
+		System.out.println("å¼€å§‹é‚®ä»¶åˆ—è¡¨èµ‹å€¼ï¼");
 		for (int i = 1; i <= mailClient.mailnumber; i++) {
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
@@ -100,20 +100,20 @@ public class ListActivity extends Activity {
 			map.put("mailtitle", mailClient.mailTitleArray[i]);
 			map.put("maildate", mailClient.mailDateArray[i]);
 			map.put("mailfrom", mailClient.mailFromArray[i]);
-			map.put("mailstate", mailClient.mailStateArray[i]);// ×Ö·ûÒÑ¶ÁºÍÎ´¶Á
-			map.put("mailexistfujian", mailClient.mailFuJianNumArray[i]);// Ã»ÓĞÎªnull
+			map.put("mailstate", mailClient.mailStateArray[i]);// å­—ç¬¦å·²è¯»å’Œæœªè¯»
+			map.put("mailexistfujian", mailClient.mailFuJianNumArray[i]);// æ²¡æœ‰ä¸ºnull
 			item.add(map);
-			System.out.println("ÓÊ¼ş¼Ä¼şÈË£º=============================="
+			System.out.println("é‚®ä»¶å¯„ä»¶äººï¼š=============================="
 					+ mailClient.mailFromArray[i]);
-			System.out.println("¸½¼şÊıÄ¿£º============="
+			System.out.println("é™„ä»¶æ•°ç›®ï¼š============="
 					+ mailClient.mailFuJianNumArray[i]);
 		}
 
-		System.out.println("ÓÊ¼şÁĞ±í¸³ÖµÍê±Ï£¡");
+		System.out.println("é‚®ä»¶åˆ—è¡¨èµ‹å€¼å®Œæ¯•ï¼");
 		return item;
 	}
 /**
- * listÁĞ±í£¬¼ÓÔØ×Ô¶¨Òåadapter
+ * liståˆ—è¡¨ï¼ŒåŠ è½½è‡ªå®šä¹‰adapter
  */
 	public void getMailList() {
 		getItem();
@@ -127,20 +127,20 @@ public class ListActivity extends Activity {
 					public void onItemClick(AdapterView<?> arg0, View argl,
 							int position, long id) {
 						// TODO Auto-generated method stub
-						// Toast.makeText(ListActivity.this, "¾¡ÇëÆÚ´ı£¡",
+						// Toast.makeText(ListActivity.this, "å°½è¯·æœŸå¾…ï¼",
 						// Toast.LENGTH_SHORT).show();
 						showContentLoading();
 						positionID = position;
 						String stringposition = Integer.toString(position + 1);// position
-																				// µÚÒ»¸öÎ»ÖÃÊÇ0£¬ºÍÊı×é²î²»¶à
-						mailClient.setNumber(stringposition);// Ïò×ÓÏß³ÌÖĞ´«µİĞèÒª¶ÁÈ¡ÓÊ¼şµÄĞòºÅ
+																				// ç¬¬ä¸€ä¸ªä½ç½®æ˜¯0ï¼Œå’Œæ•°ç»„å·®ä¸å¤š
+						mailClient.setNumber(stringposition);// å‘å­çº¿ç¨‹ä¸­ä¼ é€’éœ€è¦è¯»å–é‚®ä»¶çš„åºå·
 						mailClient.setOrder("2");
 					}
 				});
 	}
 
 	/**
-	 * Í¨¹ıhandlerÀ´´ò¿ªÏÂÒ»¸öÒ³Ãæ
+	 * é€šè¿‡handleræ¥æ‰“å¼€ä¸‹ä¸€ä¸ªé¡µé¢
 	 */
 	public static void toContentActivity() {
 		Intent intent = new Intent();
@@ -152,30 +152,30 @@ public class ListActivity extends Activity {
 	}
 
 	/**
-	 * ÏÔÊ¾Loading
+	 * æ˜¾ç¤ºLoading
 	 */
 	public void showLoading() {
 		ProgressDialog pd = new ProgressDialog(ListActivity.this);
-		pd.setTitle("ÍË³ö");
-		pd.setMessage("ÕıÔÚÍË³ö...");
+		pd.setTitle("é€€å‡º");
+		pd.setMessage("æ­£åœ¨é€€å‡º...");
 		pd.setCancelable(false);
 		pd.show();
 	}
 
 	/**
-	 * ÏÔÊ¾ÔÄ¶ÁÓÊ¼şÕıÎÄLoading
+	 * æ˜¾ç¤ºé˜…è¯»é‚®ä»¶æ­£æ–‡Loading
 	 */
 	static ProgressDialog pd_c;
 
 	public void showContentLoading() {
 		pd_c = new ProgressDialog(ListActivity.this);
-		pd_c.setTitle("ÓÊ¼şÏêÇé");
-		pd_c.setMessage("ÕıÔÚ¼ÓÔØ...");
+		pd_c.setTitle("é‚®ä»¶è¯¦æƒ…");
+		pd_c.setMessage("æ­£åœ¨åŠ è½½...");
 		pd_c.setCancelable(false);
 		pd_c.show();
 	}
 	/**
-	 * ×¢ÏúÉÏÒ»·âÏÂÒ»·â°´Å¥µÄloading
+	 * æ³¨é”€ä¸Šä¸€å°ä¸‹ä¸€å°æŒ‰é’®çš„loading
 	 */
 	public static void dismissNOLLoading(){
 		if(ContentActivity.showNOLLoading == 1){
