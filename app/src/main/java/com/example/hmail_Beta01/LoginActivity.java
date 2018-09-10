@@ -1,17 +1,9 @@
 package com.example.hmail_Beta01;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +19,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
 
 public class LoginActivity extends Activity {
 	private static MailClient client = null;
@@ -97,15 +96,15 @@ public class LoginActivity extends Activity {
 			UserPassWordInput.setText(password);
 			rememberPass.setChecked(true);
 		}
-		Drawable[] drawable_user = UserMailInput.getCompoundDrawables();
-		// 数组下表0~3,依次是:左上右下
-		drawable_user[0].setBounds(0, 0, 60, 60);
-		UserMailInput.setCompoundDrawables(drawable_user[0], null, null, null);
-
-		Drawable[] drawable_password = UserPassWordInput.getCompoundDrawables();
-		// 数组下表0~3,依次是:左上右下
-		drawable_password[0].setBounds(0, 0, 60, 60);
-		UserPassWordInput.setCompoundDrawables(drawable_password[0], null, null, null);
+//		Drawable[] drawable_user = UserMailInput.getCompoundDrawables();
+//		// 数组下表0~3,依次是:左上右下
+//		drawable_user[0].setBounds(0, 0, 60, 60);
+//		UserMailInput.setCompoundDrawables(drawable_user[0], null, null, null);
+//
+//		Drawable[] drawable_password = UserPassWordInput.getCompoundDrawables();
+//		// 数组下表0~3,依次是:左上右下
+//		drawable_password[0].setBounds(0, 0, 60, 60);
+//		UserPassWordInput.setCompoundDrawables(drawable_password[0], null, null, null);
 
 	}
 

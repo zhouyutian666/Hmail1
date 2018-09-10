@@ -1,30 +1,24 @@
 package com.example.hmail_Beta01;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.example.adapter.MyAdapter;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
+
+import com.example.adapter.MyAdapter;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ListActivity extends Activity {
 	ArrayList<Map<String, Object>> item = new ArrayList<Map<String, Object>>();
@@ -46,7 +40,9 @@ public class ListActivity extends Activity {
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.returnLogin:
-			finish();
+			Intent intent = new Intent(this, LoginActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			startActivity(intent);
 			break;
 		case R.id.exit:
 			AlertDialog.Builder builder = new Builder(this);
